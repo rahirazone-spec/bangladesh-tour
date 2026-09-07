@@ -147,6 +147,11 @@
 
             transition:
                 transform .2s ease;
+
+            touch-action: manipulation;
+
+            -webkit-tap-highlight-color:
+                transparent;
         }
 
 
@@ -165,6 +170,8 @@
             object-fit: cover;
 
             display: block;
+
+            pointer-events: none;
         }
 
 
@@ -191,6 +198,8 @@
             color: white;
 
             text-align: left;
+
+            pointer-events: none;
         }
 
 
@@ -212,7 +221,7 @@
 
 
         /* =========================
-           CAMERA SCREEN
+           CAMERA
         ========================= */
 
         #cameraScreen {
@@ -589,9 +598,9 @@
 <body>
 
 
-    <!-- =====================================================
+    <!-- =========================
          HOME
-    ====================================================== -->
+    ========================= -->
 
     <section class="hero">
 
@@ -609,11 +618,9 @@
             <div class="destination-grid">
 
 
-                <!-- COX'S BAZAR -->
-
                 <div
                     class="destination-card"
-                    onclick="startCamera('cox')"
+                    data-place="cox"
                 >
 
                     <img
@@ -637,11 +644,9 @@
 
 
 
-                <!-- SYLHET -->
-
                 <div
                     class="destination-card"
-                    onclick="startCamera('sylhet')"
+                    data-place="sylhet"
                 >
 
                     <img
@@ -665,11 +670,9 @@
 
 
 
-                <!-- SUNDARBANS -->
-
                 <div
                     class="destination-card"
-                    onclick="startCamera('sundarbans')"
+                    data-place="sundarbans"
                 >
 
                     <img
@@ -700,12 +703,11 @@
 
 
 
-    <!-- =====================================================
+    <!-- =========================
          CAMERA
-    ====================================================== -->
+    ========================= -->
 
     <section id="cameraScreen">
-
 
         <video
             id="cameraVideo"
@@ -756,9 +758,9 @@
 
 
 
-    <!-- =====================================================
+    <!-- =========================
          RESULT
-    ====================================================== -->
+    ========================= -->
 
     <section id="resultScreen">
 
@@ -796,80 +798,60 @@
 
 
 
-    <!-- =====================================================
-         MEDIAPIPE
-    ====================================================== -->
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js"
-        crossorigin="anonymous"
-    ></script>
-
-
-
-    <!-- =====================================================
+    <!-- =========================
          JAVASCRIPT
-    ====================================================== -->
+    ========================= -->
 
     <script>
 
-        /* =====================================================
+        /* =========================
            ELEMENTS
-        ===================================================== */
+        ========================= */
 
         const cameraScreen =
             document.getElementById(
                 "cameraScreen"
             );
 
-
         const cameraVideo =
             document.getElementById(
                 "cameraVideo"
             );
-
 
         const cameraTitle =
             document.getElementById(
                 "cameraTitle"
             );
 
-
         const cameraLoading =
             document.getElementById(
                 "cameraLoading"
             );
-
 
         const captureButton =
             document.getElementById(
                 "captureButton"
             );
 
-
         const closeCamera =
             document.getElementById(
                 "closeCamera"
             );
-
 
         const resultScreen =
             document.getElementById(
                 "resultScreen"
             );
 
-
         const resultCanvas =
             document.getElementById(
                 "resultCanvas"
             );
 
-
         const saveButton =
             document.getElementById(
                 "saveButton"
             );
-
 
         const againButton =
             document.getElementById(
@@ -877,10 +859,9 @@
             );
 
 
-
-        /* =====================================================
+        /* =========================
            VARIABLES
-        ===================================================== */
+        ========================= */
 
         let stream = null;
 
@@ -892,11 +873,12 @@
 
         let segmentationReady = false;
 
+        let mediaPipeLoading = null;
 
 
-        /* =====================================================
+        /* =========================
            DESTINATIONS
-        ===================================================== */
+        ========================= */
 
         const places = {
 
@@ -933,10 +915,85 @@
         };
 
 
+        /* =========================
+           LOAD MEDIAPIPE ONLY WHEN NEEDED
+        ========================= */
 
-        /* =====================================================
+        function loadMediaPipe() {
+
+            if (
+                typeof SelfieSegmentation !==
+                "undefined"
+            ) {
+
+                return Promise.resolve(true);
+
+            }
+
+
+            if (mediaPipeLoading) {
+
+                return mediaPipeLoading;
+
+            }
+
+
+            mediaPipeLoading =
+                new Promise(function(resolve) {
+
+                    const script =
+                        document.createElement(
+                            "script"
+                        );
+
+
+                    script.src =
+                        "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js";
+
+
+                    script.crossOrigin =
+                        "anonymous";
+
+
+                    script.onload =
+                        function() {
+
+                            console.log(
+                                "MediaPipe loaded"
+                            );
+
+                            resolve(true);
+
+                        };
+
+
+                    script.onerror =
+                        function() {
+
+                            console.error(
+                                "MediaPipe load failed"
+                            );
+
+                            resolve(false);
+
+                        };
+
+
+                    document.head.appendChild(
+                        script
+                    );
+
+                });
+
+
+            return mediaPipeLoading;
+
+        }
+
+
+        /* =========================
            INITIALIZE AI
-        ===================================================== */
+        ========================= */
 
         function initializeAI() {
 
@@ -947,14 +1004,17 @@
                     "undefined"
                 ) {
 
-                    console.error(
-                        "MediaPipe load হয়নি।"
-                    );
-
                     segmentationReady =
                         false;
 
-                    return;
+                    return false;
+
+                }
+
+
+                if (segmentation) {
+
+                    return true;
 
                 }
 
@@ -975,10 +1035,6 @@
                     });
 
 
-                /*
-                 * General model
-                 */
-
                 segmentation.setOptions({
 
                     modelSelection: 0
@@ -994,6 +1050,9 @@
                     "MediaPipe AI Ready"
                 );
 
+
+                return true;
+
             }
 
             catch (error) {
@@ -1003,29 +1062,66 @@
                     error
                 );
 
+
                 segmentationReady =
                     false;
+
+
+                return false;
 
             }
 
         }
 
 
+        /* =========================
+           DESTINATION CARD CLICK
+        ========================= */
 
-        /*
-         * AI initialize হবে,
-         * কিন্তু camera তার জন্য অপেক্ষা করবে না।
-         */
+        document
+            .querySelectorAll(
+                ".destination-card"
+            )
+            .forEach(function(card) {
 
-        initializeAI();
+                card.addEventListener(
+                    "click",
+                    function() {
+
+                        const place =
+                            card.dataset.place;
+
+                        startCamera(place);
+
+                    }
+                );
+
+            });
 
 
-
-        /* =====================================================
+        /* =========================
            START CAMERA
-        ===================================================== */
+        ========================= */
 
         async function startCamera(place) {
+
+            console.log(
+                "startCamera:",
+                place
+            );
+
+
+            if (!places[place]) {
+
+                console.error(
+                    "Invalid destination:",
+                    place
+                );
+
+                return;
+
+            }
+
 
             selectedPlace =
                 place;
@@ -1056,12 +1152,16 @@
                 "none";
 
 
+            /*
+             * Camera screen immediately visible.
+             */
+
             cameraScreen.style.display =
                 "block";
 
 
             /*
-             * পুরোনো stream বন্ধ
+             * Stop old stream.
              */
 
             stopCameraOnly();
@@ -1070,7 +1170,24 @@
             try {
 
                 /*
-                 * Camera API আছে কিনা
+                 * Check secure context.
+                 */
+
+                if (
+                    !window.isSecureContext &&
+                    location.hostname !==
+                        "localhost"
+                ) {
+
+                    throw new Error(
+                        "ক্যামেরার জন্য HTTPS প্রয়োজন।"
+                    );
+
+                }
+
+
+                /*
+                 * Check camera API.
                  */
 
                 if (
@@ -1079,14 +1196,14 @@
                 ) {
 
                     throw new Error(
-                        "Camera API পাওয়া যাচ্ছে না।"
+                        "এই browser-এ Camera API পাওয়া যাচ্ছে না।"
                     );
 
                 }
 
 
                 /*
-                 * Camera
+                 * Request front camera.
                  */
 
                 stream =
@@ -1097,7 +1214,10 @@
                             video: {
 
                                 facingMode:
-                                    "user",
+                                    {
+                                        ideal:
+                                            "user"
+                                    },
 
                                 width: {
 
@@ -1121,8 +1241,13 @@
                         });
 
 
+                console.log(
+                    "Camera permission granted"
+                );
+
+
                 /*
-                 * Video attach
+                 * Attach stream.
                  */
 
                 cameraVideo.srcObject =
@@ -1130,16 +1255,14 @@
 
 
                 /*
-                 * Camera metadata
+                 * Wait for metadata.
                  */
 
                 await new Promise(
-
                     function(resolve) {
 
                         if (
-                            cameraVideo.readyState >= 2 &&
-                            cameraVideo.videoWidth > 0
+                            cameraVideo.readyState >= 1
                         ) {
 
                             resolve();
@@ -1157,19 +1280,18 @@
                             };
 
                     }
-
                 );
 
 
                 /*
-                 * Play
+                 * Play.
                  */
 
                 await cameraVideo.play();
 
 
                 /*
-                 * Camera ready
+                 * Camera ready.
                  */
 
                 cameraLoading.style.display =
@@ -1177,7 +1299,7 @@
 
 
                 console.log(
-                    "Camera started:",
+                    "Camera ready:",
                     cameraVideo.videoWidth,
                     cameraVideo.videoHeight
                 );
@@ -1196,9 +1318,14 @@
                     "ক্যামেরা চালু করা যায়নি।";
 
 
+                /*
+                 * Keep camera screen visible
+                 * so error can be seen.
+                 */
+
                 alert(
                     "ক্যামেরা চালু করা যায়নি।\n\n" +
-                    "Chrome Camera Permission থেকে Allow করুন।"
+                    error.message
                 );
 
             }
@@ -1206,10 +1333,9 @@
         }
 
 
-
-        /* =====================================================
-           CAPTURE PHOTO
-        ===================================================== */
+        /* =========================
+           CAPTURE
+        ========================= */
 
         async function capturePhoto() {
 
@@ -1238,10 +1364,6 @@
 
             try {
 
-                /*
-                 * Camera check
-                 */
-
                 if (!stream) {
 
                     throw new Error(
@@ -1263,10 +1385,9 @@
                 }
 
 
-
-                /* =================================================
-                   SOURCE PHOTO
-                ================================================= */
+                /* =========================
+                   SOURCE IMAGE
+                ========================= */
 
                 const sourceCanvas =
                     document.createElement(
@@ -1289,7 +1410,7 @@
 
 
                 /*
-                 * Front camera mirror
+                 * Mirror front camera.
                  */
 
                 sourceCtx.save();
@@ -1323,28 +1444,19 @@
                 sourceCtx.restore();
 
 
-
-                /* =================================================
-                   AI
-                ================================================= */
+                /* =========================
+                   LOAD AI NOW
+                ========================= */
 
                 cameraLoading.innerText =
-                    "AI দিয়ে background remove করা হচ্ছে...";
+                    "AI প্রস্তুত হচ্ছে...";
 
 
-                /*
-                 * যদি AI এখনো ready না হয়,
-                 * আবার initialize করি।
-                 */
-
-                if (!segmentationReady) {
-
-                    initializeAI();
-
-                }
+                const loaded =
+                    await loadMediaPipe();
 
 
-                if (!segmentationReady) {
+                if (!loaded) {
 
                     throw new Error(
                         "AI load হয়নি। Internet connection পরীক্ষা করুন।"
@@ -1353,9 +1465,22 @@
                 }
 
 
-                /*
-                 * AI segmentation
-                 */
+                if (!initializeAI()) {
+
+                    throw new Error(
+                        "AI initialize করা যায়নি।"
+                    );
+
+                }
+
+
+                /* =========================
+                   SEGMENTATION
+                ========================= */
+
+                cameraLoading.innerText =
+                    "AI দিয়ে background remove করা হচ্ছে...";
+
 
                 const results =
                     await runSegmentation(
@@ -1375,10 +1500,9 @@
                 }
 
 
-
-                /* =================================================
+                /* =========================
                    PERSON CUTOUT
-                ================================================= */
+                ========================= */
 
                 const personCanvas =
                     createPersonCutout(
@@ -1391,15 +1515,11 @@
 
 
                 /*
-                 * Camera বন্ধ
+                 * Camera বন্ধ।
                  */
 
                 stopCameraOnly();
 
-
-                /*
-                 * Final image
-                 */
 
                 cameraLoading.innerText =
                     "Final photo তৈরি হচ্ছে...";
@@ -1408,7 +1528,6 @@
                 await createFinalImage(
                     personCanvas
                 );
-
 
             }
 
@@ -1442,31 +1561,33 @@
         }
 
 
-
-        /* =====================================================
-           RUN MEDIAPIPE
-        ===================================================== */
+        /* =========================
+           RUN SEGMENTATION
+        ========================= */
 
         function runSegmentation(image) {
 
             return new Promise(
-
                 function(resolve, reject) {
 
                     let finished =
                         false;
 
 
-                    /*
-                     * Result handler
-                     */
+                    if (!segmentation) {
 
-                    const oldHandler =
-                        segmentation.onResults;
+                        reject(
+                            new Error(
+                                "AI পাওয়া যায়নি।"
+                            )
+                        );
+
+                        return;
+
+                    }
 
 
-                    segmentation.onResults(
-
+                    segmentation.onResults =
                         function(results) {
 
                             if (finished) {
@@ -1480,23 +1601,12 @@
                                 true;
 
 
-                            segmentation.onResults(
-                                function() {}
-                            );
-
-
                             resolve(
                                 results
                             );
 
-                        }
+                        };
 
-                    );
-
-
-                    /*
-                     * Send image
-                     */
 
                     segmentation
                         .send({
@@ -1505,9 +1615,7 @@
                                 image
 
                         })
-
                         .catch(
-
                             function(error) {
 
                                 if (
@@ -1528,16 +1636,10 @@
                                 );
 
                             }
-
                         );
 
 
-                    /*
-                     * Timeout
-                     */
-
                     setTimeout(
-
                         function() {
 
                             if (
@@ -1554,30 +1656,24 @@
 
 
                             reject(
-
                                 new Error(
                                     "AI processing করতে বেশি সময় লাগছে। আবার চেষ্টা করুন।"
                                 )
-
                             );
 
                         },
-
                         15000
-
                     );
 
                 }
-
             );
 
         }
 
 
-
-        /* =====================================================
+        /* =========================
            CREATE PERSON CUTOUT
-        ===================================================== */
+        ========================= */
 
         function createPersonCutout(
             sourceCanvas,
@@ -1591,11 +1687,6 @@
             const height =
                 sourceCanvas.height;
 
-
-
-            /*
-             * Mask canvas
-             */
 
             const maskCanvas =
                 document.createElement(
@@ -1621,10 +1712,6 @@
                 );
 
 
-            /*
-             * Draw MediaPipe mask
-             */
-
             maskCtx.drawImage(
 
                 mask,
@@ -1637,10 +1724,6 @@
 
             );
 
-
-            /*
-             * Read mask pixels
-             */
 
             const maskData =
                 maskCtx.getImageData(
@@ -1658,10 +1741,9 @@
                 maskData.data;
 
 
-
             /*
-             * Convert mask brightness
-             * into alpha
+             * MediaPipe mask brightness
+             * → alpha
              */
 
             for (
@@ -1671,7 +1753,6 @@
             ) {
 
                 const brightness =
-
                     (
                         pixels[i] +
                         pixels[i + 1] +
@@ -1682,10 +1763,6 @@
                 let alpha;
 
 
-                /*
-                 * Background
-                 */
-
                 if (
                     brightness < 40
                 ) {
@@ -1693,11 +1770,6 @@
                     alpha = 0;
 
                 }
-
-
-                /*
-                 * Person
-                 */
 
                 else if (
                     brightness > 160
@@ -1707,15 +1779,9 @@
 
                 }
 
-
-                /*
-                 * Edge
-                 */
-
                 else {
 
                     alpha =
-
                         (
                             (
                                 brightness -
@@ -1748,10 +1814,6 @@
             }
 
 
-            /*
-             * Put alpha mask back
-             */
-
             maskCtx.putImageData(
                 maskData,
                 0,
@@ -1759,9 +1821,8 @@
             );
 
 
-
             /*
-             * Person canvas
+             * Person canvas.
              */
 
             const personCanvas =
@@ -1784,10 +1845,6 @@
                 );
 
 
-            /*
-             * Draw camera image
-             */
-
             personCtx.drawImage(
 
                 sourceCanvas,
@@ -1802,7 +1859,7 @@
 
 
             /*
-             * Keep only mask area
+             * Keep only person.
              */
 
             personCtx.globalCompositeOperation =
@@ -1831,10 +1888,9 @@
         }
 
 
-
-        /* =====================================================
+        /* =========================
            FIND PERSON BOUNDS
-        ===================================================== */
+        ========================= */
 
         function findPersonBounds(
             canvas
@@ -1877,18 +1933,14 @@
             let minX =
                 width;
 
-
             let minY =
                 height;
-
 
             let maxX =
                 0;
 
-
             let maxY =
                 0;
-
 
             let found =
                 false;
@@ -1897,12 +1949,6 @@
             const threshold =
                 30;
 
-
-
-            /*
-             * Scan every 4th pixel
-             * to make mobile processing faster.
-             */
 
             for (
                 let y = 0;
@@ -1973,13 +2019,11 @@
             }
 
 
-
             if (!found) {
 
                 return null;
 
             }
-
 
 
             const margin =
@@ -2014,7 +2058,6 @@
                 );
 
 
-
             return {
 
                 x:
@@ -2038,10 +2081,9 @@
         }
 
 
-
-        /* =====================================================
+        /* =========================
            CREATE FINAL IMAGE
-        ===================================================== */
+        ========================= */
 
         async function createFinalImage(
             person
@@ -2053,10 +2095,6 @@
                 ];
 
 
-            /*
-             * Load destination
-             */
-
             const background =
                 new Image();
 
@@ -2066,7 +2104,6 @@
 
 
             await new Promise(
-
                 function(resolve, reject) {
 
                     background.onload =
@@ -2077,19 +2114,15 @@
                         function() {
 
                             reject(
-
                                 new Error(
                                     "Destination image load হয়নি।"
                                 )
-
                             );
 
                         };
 
                 }
-
             );
-
 
 
             const canvas =
@@ -2110,9 +2143,8 @@
                 1350;
 
 
-
             /*
-             * Background
+             * Background.
              */
 
             drawCover(
@@ -2130,9 +2162,8 @@
             );
 
 
-
             /*
-             * Find person
+             * Find person.
              */
 
             const bounds =
@@ -2144,17 +2175,14 @@
             if (!bounds) {
 
                 throw new Error(
-
-                    "মানুষ শনাক্ত করা যায়নি।\n\nক্যামেরার সামনে পুরো শরীর বা শরীরের বেশিরভাগ অংশ রেখে আবার চেষ্টা করুন।"
-
+                    "মানুষ শনাক্ত করা যায়নি। ক্যামেরার সামনে দাঁড়িয়ে আবার চেষ্টা করুন।"
                 );
 
             }
 
 
-
             /*
-             * Crop person
+             * Crop person.
              */
 
             const croppedPerson =
@@ -2196,9 +2224,8 @@
             );
 
 
-
             /*
-             * Person size
+             * Person size.
              */
 
             const maxWidth =
@@ -2239,9 +2266,8 @@
                 scale;
 
 
-
             /*
-             * Person position
+             * Position.
              */
 
             const personX =
@@ -2256,9 +2282,8 @@
                 personHeight;
 
 
-
             /*
-             * Shadow
+             * Shadow.
              */
 
             ctx.save();
@@ -2290,9 +2315,8 @@
             ctx.restore();
 
 
-
             /*
-             * Person
+             * Person.
              */
 
             ctx.drawImage(
@@ -2300,17 +2324,18 @@
                 croppedPerson,
 
                 personX,
+
                 personY,
 
                 personWidth,
+
                 personHeight
 
             );
 
 
-
             /*
-             * Bottom gradient
+             * Bottom gradient.
              */
 
             const gradient =
@@ -2358,9 +2383,8 @@
             );
 
 
-
             /*
-             * Destination name
+             * Destination name.
              */
 
             ctx.fillStyle =
@@ -2386,9 +2410,8 @@
             );
 
 
-
             /*
-             * Footer
+             * Footer.
              */
 
             ctx.font =
@@ -2406,9 +2429,8 @@
             );
 
 
-
             /*
-             * Show result
+             * Show result.
              */
 
             resultScreen.style.display =
@@ -2425,10 +2447,9 @@
         }
 
 
-
-        /* =====================================================
+        /* =========================
            DRAW COVER
-        ===================================================== */
+        ========================= */
 
         function drawCover(
 
@@ -2458,7 +2479,6 @@
             let drawX;
 
             let drawY;
-
 
 
             if (
@@ -2528,10 +2548,9 @@
         }
 
 
-
-        /* =====================================================
-           STOP CAMERA ONLY
-        ===================================================== */
+        /* =========================
+           STOP CAMERA
+        ========================= */
 
         function stopCameraOnly() {
 
@@ -2540,13 +2559,11 @@
                 stream
                     .getTracks()
                     .forEach(
-
                         function(track) {
 
                             track.stop();
 
                         }
-
                     );
 
             }
@@ -2562,15 +2579,12 @@
         }
 
 
-
-        /* =====================================================
+        /* =========================
            CLOSE CAMERA
-        ===================================================== */
+        ========================= */
 
         closeCamera.addEventListener(
-
             "click",
-
             function() {
 
                 stopCameraOnly();
@@ -2588,42 +2602,29 @@
                     false;
 
             }
-
         );
 
 
-
-        /* =====================================================
+        /* =========================
            CAPTURE BUTTON
-        ===================================================== */
+        ========================= */
 
         captureButton.addEventListener(
-
             "click",
-
             function(event) {
 
                 event.preventDefault();
 
                 event.stopPropagation();
 
-
                 capturePhoto();
 
             }
-
         );
 
 
-
-        /*
-         * Mobile touch fallback
-         */
-
         captureButton.addEventListener(
-
             "touchend",
-
             function(event) {
 
                 event.preventDefault();
@@ -2638,23 +2639,18 @@
                 }
 
             },
-
             {
                 passive: false
             }
-
         );
 
 
-
-        /* =====================================================
+        /* =========================
            SAVE
-        ===================================================== */
+        ========================= */
 
         saveButton.addEventListener(
-
             "click",
-
             function() {
 
                 const link =
@@ -2676,19 +2672,15 @@
                 link.click();
 
             }
-
         );
 
 
-
-        /* =====================================================
+        /* =========================
            AGAIN
-        ===================================================== */
+        ========================= */
 
         againButton.addEventListener(
-
             "click",
-
             function() {
 
                 resultScreen.style.display =
@@ -2712,7 +2704,6 @@
                 }
 
             }
-
         );
 
     </script>
