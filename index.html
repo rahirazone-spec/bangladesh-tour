@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="bn">
 
@@ -586,6 +587,12 @@
             .camera-loading {
 
                 font-size: 14px;
+
+                max-width: 90%;
+
+                white-space: normal;
+
+                line-height: 1.5;
             }
 
         }
@@ -804,6 +811,7 @@
 
     <script>
 
+
         /* =========================
            ELEMENTS
         ========================= */
@@ -916,7 +924,7 @@
 
 
         /* =========================
-           LOAD MEDIAPIPE ONLY WHEN NEEDED
+           LOAD MEDIAPIPE
         ========================= */
 
         function loadMediaPipe() {
@@ -926,7 +934,9 @@
                 "undefined"
             ) {
 
-                return Promise.resolve(true);
+                return Promise.resolve(
+                    true
+                );
 
             }
 
@@ -939,51 +949,57 @@
 
 
             mediaPipeLoading =
-                new Promise(function(resolve) {
+                new Promise(
+                    function(resolve) {
 
-                    const script =
-                        document.createElement(
-                            "script"
+                        const script =
+                            document.createElement(
+                                "script"
+                            );
+
+
+                        script.src =
+                            "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js";
+
+
+                        script.crossOrigin =
+                            "anonymous";
+
+
+                        script.onload =
+                            function() {
+
+                                console.log(
+                                    "MediaPipe loaded"
+                                );
+
+                                resolve(
+                                    true
+                                );
+
+                            };
+
+
+                        script.onerror =
+                            function() {
+
+                                console.error(
+                                    "MediaPipe load failed"
+                                );
+
+                                resolve(
+                                    false
+                                );
+
+                            };
+
+
+                        document.head.appendChild(
+                            script
                         );
 
-
-                    script.src =
-                        "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js";
-
-
-                    script.crossOrigin =
-                        "anonymous";
-
-
-                    script.onload =
-                        function() {
-
-                            console.log(
-                                "MediaPipe loaded"
-                            );
-
-                            resolve(true);
-
-                        };
-
-
-                    script.onerror =
-                        function() {
-
-                            console.error(
-                                "MediaPipe load failed"
-                            );
-
-                            resolve(false);
-
-                        };
-
-
-                    document.head.appendChild(
-                        script
-                    );
-
-                });
+                    }
+                );
 
 
             return mediaPipeLoading;
@@ -1075,28 +1091,32 @@
 
 
         /* =========================
-           DESTINATION CARD CLICK
+           DESTINATION CLICK
         ========================= */
 
         document
             .querySelectorAll(
                 ".destination-card"
             )
-            .forEach(function(card) {
+            .forEach(
+                function(card) {
 
-                card.addEventListener(
-                    "click",
-                    function() {
+                    card.addEventListener(
+                        "click",
+                        function() {
 
-                        const place =
-                            card.dataset.place;
+                            const place =
+                                card.dataset.place;
 
-                        startCamera(place);
+                            startCamera(
+                                place
+                            );
 
-                    }
-                );
+                        }
+                    );
 
-            });
+                }
+            );
 
 
         /* =========================
@@ -1114,8 +1134,7 @@
             if (!places[place]) {
 
                 console.error(
-                    "Invalid destination:",
-                    place
+                    "Invalid destination"
                 );
 
                 return;
@@ -1152,26 +1171,14 @@
                 "none";
 
 
-            /*
-             * Camera screen immediately visible.
-             */
-
             cameraScreen.style.display =
                 "block";
 
-
-            /*
-             * Stop old stream.
-             */
 
             stopCameraOnly();
 
 
             try {
-
-                /*
-                 * Check secure context.
-                 */
 
                 if (
                     !window.isSecureContext &&
@@ -1186,10 +1193,6 @@
                 }
 
 
-                /*
-                 * Check camera API.
-                 */
-
                 if (
                     !navigator.mediaDevices ||
                     !navigator.mediaDevices.getUserMedia
@@ -1201,10 +1204,6 @@
 
                 }
 
-
-                /*
-                 * Request front camera.
-                 */
 
                 stream =
                     await navigator
@@ -1241,28 +1240,16 @@
                         });
 
 
-                console.log(
-                    "Camera permission granted"
-                );
-
-
-                /*
-                 * Attach stream.
-                 */
-
                 cameraVideo.srcObject =
                     stream;
 
-
-                /*
-                 * Wait for metadata.
-                 */
 
                 await new Promise(
                     function(resolve) {
 
                         if (
-                            cameraVideo.readyState >= 1
+                            cameraVideo.readyState >=
+                            1
                         ) {
 
                             resolve();
@@ -1283,16 +1270,8 @@
                 );
 
 
-                /*
-                 * Play.
-                 */
-
                 await cameraVideo.play();
 
-
-                /*
-                 * Camera ready.
-                 */
 
                 cameraLoading.style.display =
                     "none";
@@ -1318,11 +1297,6 @@
                     "ক্যামেরা চালু করা যায়নি।";
 
 
-                /*
-                 * Keep camera screen visible
-                 * so error can be seen.
-                 */
-
                 alert(
                     "ক্যামেরা চালু করা যায়নি।\n\n" +
                     error.message
@@ -1334,7 +1308,7 @@
 
 
         /* =========================
-           CAPTURE
+           CAPTURE PHOTO
         ========================= */
 
         async function capturePhoto() {
@@ -1352,10 +1326,6 @@
 
             captureButton.disabled =
                 true;
-
-
-            cameraLoading.innerText =
-                "ছবি তোলা হচ্ছে...";
 
 
             cameraLoading.style.display =
@@ -1386,7 +1356,7 @@
 
 
                 /* =========================
-                   SOURCE IMAGE
+                   LOW RESOLUTION SOURCE
                 ========================= */
 
                 const sourceCanvas =
@@ -1395,12 +1365,49 @@
                     );
 
 
-                sourceCanvas.width =
+                const originalWidth =
                     cameraVideo.videoWidth;
 
 
-                sourceCanvas.height =
+                const originalHeight =
                     cameraVideo.videoHeight;
+
+
+                /*
+                 * AI-এর জন্য সর্বোচ্চ 640px।
+                 * এতে মোবাইলে অনেক দ্রুত processing হবে।
+                 */
+
+                const MAX_SIZE =
+                    640;
+
+
+                const scale =
+                    Math.min(
+
+                        1,
+
+                        MAX_SIZE /
+                        Math.max(
+                            originalWidth,
+                            originalHeight
+                        )
+
+                    );
+
+
+                sourceCanvas.width =
+                    Math.round(
+                        originalWidth *
+                        scale
+                    );
+
+
+                sourceCanvas.height =
+                    Math.round(
+                        originalHeight *
+                        scale
+                    );
 
 
                 const sourceCtx =
@@ -1410,7 +1417,7 @@
 
 
                 /*
-                 * Mirror front camera.
+                 * Front camera mirror.
                  */
 
                 sourceCtx.save();
@@ -1445,7 +1452,7 @@
 
 
                 /* =========================
-                   LOAD AI NOW
+                   LOAD AI
                 ========================= */
 
                 cameraLoading.innerText =
@@ -1475,11 +1482,11 @@
 
 
                 /* =========================
-                   SEGMENTATION
+                   SEGMENT
                 ========================= */
 
                 cameraLoading.innerText =
-                    "AI দিয়ে background remove করা হচ্ছে...";
+                    "Background remove হচ্ছে...";
 
 
                 const results =
@@ -1562,7 +1569,7 @@
 
 
         /* =========================
-           RUN SEGMENTATION
+           SEGMENTATION
         ========================= */
 
         function runSegmentation(image) {
@@ -1610,10 +1617,7 @@
 
                     segmentation
                         .send({
-
-                            image:
-                                image
-
+                            image: image
                         })
                         .catch(
                             function(error) {
@@ -1639,6 +1643,12 @@
                         );
 
 
+                    /*
+                     * Mobile-এ প্রথমবার
+                     * AI model load হতে সময়
+                     * লাগতে পারে।
+                     */
+
                     setTimeout(
                         function() {
 
@@ -1657,12 +1667,12 @@
 
                             reject(
                                 new Error(
-                                    "AI processing করতে বেশি সময় লাগছে। আবার চেষ্টা করুন।"
+                                    "AI processing করতে বেশি সময় লাগছে। আবার ছবি তুলুন।"
                                 )
                             );
 
                         },
-                        15000
+                        30000
                     );
 
                 }
@@ -1742,8 +1752,8 @@
 
 
             /*
-             * MediaPipe mask brightness
-             * → alpha
+             * Mask brightness
+             * → Alpha
              */
 
             for (
@@ -1788,7 +1798,8 @@
                                 40
                             ) /
                             120
-                        ) * 255;
+                        ) *
+                        255;
 
                 }
 
@@ -1822,7 +1833,7 @@
 
 
             /*
-             * Person canvas.
+             * Person canvas
              */
 
             const personCanvas =
@@ -1859,7 +1870,7 @@
 
 
             /*
-             * Keep only person.
+             * Keep only person
              */
 
             personCtx.globalCompositeOperation =
@@ -1949,6 +1960,11 @@
             const threshold =
                 30;
 
+
+            /*
+             * প্রতি 4px করে scan
+             * → দ্রুত
+             */
 
             for (
                 let y = 0;
@@ -2144,7 +2160,7 @@
 
 
             /*
-             * Background.
+             * Destination background
              */
 
             drawCover(
@@ -2163,7 +2179,7 @@
 
 
             /*
-             * Find person.
+             * Person bounds
              */
 
             const bounds =
@@ -2182,7 +2198,7 @@
 
 
             /*
-             * Crop person.
+             * Crop person
              */
 
             const croppedPerson =
@@ -2225,7 +2241,7 @@
 
 
             /*
-             * Person size.
+             * Person size
              */
 
             const maxWidth =
@@ -2267,7 +2283,7 @@
 
 
             /*
-             * Position.
+             * Position
              */
 
             const personX =
@@ -2283,7 +2299,7 @@
 
 
             /*
-             * Shadow.
+             * Shadow
              */
 
             ctx.save();
@@ -2316,7 +2332,7 @@
 
 
             /*
-             * Person.
+             * Person
              */
 
             ctx.drawImage(
@@ -2335,7 +2351,7 @@
 
 
             /*
-             * Bottom gradient.
+             * Bottom gradient
              */
 
             const gradient =
@@ -2384,7 +2400,7 @@
 
 
             /*
-             * Destination name.
+             * Destination name
              */
 
             ctx.fillStyle =
@@ -2411,7 +2427,7 @@
 
 
             /*
-             * Footer.
+             * Footer
              */
 
             ctx.font =
@@ -2430,7 +2446,7 @@
 
 
             /*
-             * Show result.
+             * Result screen
              */
 
             resultScreen.style.display =
@@ -2706,9 +2722,11 @@
             }
         );
 
+
     </script>
 
 
 </body>
 
 </html>
+```
