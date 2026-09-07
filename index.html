@@ -1783,7 +1783,49 @@
 
         }
 
+        /* =========================
+           MOBILE CAPTURE BUTTON FIX
+        ========================= */
 
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const captureButton =
+                document.getElementById("capture-button");
+
+            if (!captureButton) {
+                return;
+            }
+
+            captureButton.addEventListener(
+                "touchstart",
+                function (event) {
+
+                    event.preventDefault();
+
+                    takePhoto();
+
+                },
+                {
+                    passive: false
+                }
+            );
+
+
+            captureButton.addEventListener(
+                "pointerdown",
+                function (event) {
+
+                    if (event.pointerType === "touch") {
+                        event.preventDefault();
+                    }
+
+                },
+                {
+                    passive: false
+                }
+            );
+
+        });
     </script>
 
 
