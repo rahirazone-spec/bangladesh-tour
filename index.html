@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>বাংলাদেশ টুর</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        body {
+            font-family: 'Noto Serif Bengali', serif;
+            background: #000;
+        }
+
+        /* HERO */
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.30);
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 90%;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            margin: 0;
+
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            margin: 18px 0 30px;
+
+            font-size: 22px;
+        }
+
+        .explore-btn {
+            display: inline-block;
+
+            padding: 12px 30px;
+
+            border: 1px solid white;
+            border-radius: 50px;
+
+            color: white;
+            text-decoration: none;
+
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        .explore-btn:hover {
+            background: white;
+            color: #111;
+        }
+
+
+        /* DESTINATIONS */
+
+        .destinations {
+            background: #f7f7f5;
+            padding: 90px 7%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            margin: 0 0 10px;
+
+            font-size: 42px;
+            color: #111;
+        }
+
+        .section-title p {
+            margin: 0;
+
+            font-size: 18px;
+            color: #666;
+        }
+
+        .destination-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 25px;
+
+            max-width: 1200px;
+
+            margin: 0 auto;
+        }
+
+        .destination-card {
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+            transition: transform 0.3s ease;
+
+            cursor: pointer;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .destination-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .card-content {
+            padding: 22px;
+        }
+
+        .card-content h3 {
+            margin: 0 0 8px;
+
+            font-size: 26px;
+
+            color: #111;
+        }
+
+        .card-content p {
+            margin: 0;
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+            color: #666;
+        }
+
+
+        /* TOUR SCREEN */
+
+        #tour-screen {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            background: #000;
+        }
+
+        .tour-background {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+        }
+
+        .tour-background img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        .tour-overlay {
+            position: absolute;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .tour-content {
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: 90%;
+
+            text-align: center;
+
+            color: white;
+        }
+
+        .tour-content h1 {
+            margin: 0 0 12px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 42px;
+        }
+
+        .tour-content p {
+            margin: 0 0 30px;
+
+            font-size: 22px;
+        }
+
+        .tour-btn {
+            border: 0;
+
+            padding: 14px 28px;
+
+            margin: 5px;
+
+            border-radius: 50px;
+
+            font-size: 17px;
+
+            cursor: pointer;
+
+            background: white;
+
+            color: #111;
+        }
+
+        .close-btn {
+            background: transparent;
+
+            color: white;
+
+            border: 1px solid white;
+        }
+
+
+        /* CAMERA */
+
+        #camera-screen {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 10000;
+
+            background: #000;
+
+            display: none;
+        }
+
+        #camera-video {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .camera-ui {
+            position: absolute;
+
+            inset: 0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: flex-end;
+
+            align-items: center;
+
+            padding-bottom: 40px;
+        }
+
+        .camera-title {
+            position: absolute;
+
+            top: 30px;
+
+            left: 0;
+            right: 0;
+
+            text-align: center;
+
+            color: white;
+
+            font-size: 22px;
+
+            text-shadow: 0 2px 8px black;
+        }
+
+        .capture-btn {
+            width: 72px;
+            height: 72px;
+
+            border-radius: 50%;
+
+            border: 5px solid white;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.3);
+        }
+
+        .camera-close {
+            position: absolute;
+
+            top: 25px;
+            right: 25px;
+
+            background: rgba(0,0,0,0.5);
+
+            border: 1px solid white;
+
+            color: white;
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            .hero-content h1 {
+                font-size: 48px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title h2 {
+                font-size: 34px;
+            }
+
+            .tour-content h1 {
+                font-size: 30px;
+            }
+
+            .tour-content p {
+                font-size: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <img src="./images/hero.jpg" alt="বাংলাদেশের পর্যটন">
+
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+
+            <h1>বাংলাদেশ টুর</h1>
+
+            <p>চলো বাংলাদেশকে নতুনভাবে দেখি</p>
+
+            <a href="#destinations" class="explore-btn">
+                Explore Bangladesh
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- DESTINATIONS -->
+
+    <section class="destinations" id="destinations">
+
+        <div class="section-title">
+
+            <h2>জনপ্রিয় গন্তব্য</h2>
+
+            <p>একটি গন্তব্য বেছে নিন</p>
+
+        </div>
+
+
+        <div class="destination-grid">
+
+
+            <!-- COX'S BAZAR -->
+
+            <div class="destination-card"
+                onclick="openTour('coxs-bazar')">
+
+                <img
+                    src="./images/coxs-bazar.jpg"
+                    alt="কক্সবাজার">
+
+                <div class="card-content">
+
+                    <h3>কক্সবাজার</h3>
+
+                    <p>
+                        সমুদ্র, সূর্যাস্ত আর অসীম সৌন্দর্যের ঠিকানা।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SYLHET -->
+
+            <div class="destination-card"
+                onclick="openTour('sylhet')">
+
+                <img
+                    src="./images/sylhet.jpg"
+                    alt="সিলেট">
+
+                <div class="card-content">
+
+                    <h3>সিলেট</h3>
+
+                    <p>
+                        সবুজ চা-বাগান, পাহাড় আর প্রকৃতির অপূর্ব সৌন্দর্য।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUNDARBANS -->
+
+            <div class="destination-card"
+                onclick="openTour('sundarbans')">
+
+                <img
+                    src="./images/sundarbans.jpg"
+                    alt="সুন্দরবন">
+
+                <div class="card-content">
+
+                    <h3>সুন্দরবন</h3>
+
+                    <p>
+                        প্রকৃতি ও বন্যতার এক অনন্য পৃথিবী।
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- TOUR SCREEN -->
+
+    <div id="tour-screen" style="display:none;"></div>
+
+
+
+    <!-- CAMERA SCREEN -->
+
+    <div id="camera-screen">
+
+        <video
+            id="camera-video"
+            autoplay
+            playsinline>
+        </video>
+
+        <div class="camera-title">
+            Instant Bangladesh Tour
+        </div>
+
+        <button
+            class="camera-close"
+            onclick="closeCamera()">
+            ✕
+        </button>
+
+        <div class="camera-ui">
+
+            <button
+                class="capture-btn"
+                onclick="takePhoto()">
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+        let selectedDestination = "";
+
+        let cameraStream = null;
+
+
+
+        /* DESTINATION NAME */
+
+        function getDestinationName(destination) {
+
+            if (destination === "coxs-bazar")
+                return "কক্সবাজার";
+
+            if (destination === "sylhet")
+                return "সিলেট";
+
+            if (destination === "sundarbans")
+                return "সুন্দরবন";
+
+            return destination;
+
+        }
+
+
+
+        /* OPEN TOUR */
+
+        function openTour(destination) {
+
+            selectedDestination = destination;
+
+            const name = getDestinationName(destination);
+
+            const tourScreen =
+                document.getElementById("tour-screen");
+
+
+            tourScreen.style.display = "block";
+
+
+            tourScreen.innerHTML = `
+
+                <div class="tour-background">
+
+                    <img
+                        src="./images/${destination}.jpg"
+                        alt="${name}">
+
+                    <div class="tour-overlay"></div>
+
+
+                    <div class="tour-content">
+
+                        <h1>
+                            Instant Bangladesh Tour
+                        </h1>
+
+                        <p>
+                            ${name} — এখন নিজেকে এই গন্তব্যে দেখুন
+                        </p>
+
+
+                        <button
+                            class="tour-btn"
+                            onclick="openCamera()">
+
+                            📷 ছবি তুলুন
+
+                        </button>
+
+
+                        <button
+                            class="tour-btn close-btn"
+                            onclick="closeTour()">
+
+                            ✕ ফিরে যান
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+
+
+        /* CLOSE TOUR */
+
+        function closeTour() {
+
+            const tourScreen =
+                document.getElementById("tour-screen");
+
+            tourScreen.style.display = "none";
+
+            tourScreen.innerHTML = "";
+
+        }
+
+
+
+        /* OPEN CAMERA */
+
+        async function openCamera() {
+
+            const cameraScreen =
+                document.getElementById("camera-screen");
+
+            const video =
+                document.getElementById("camera-video");
+
+
+            try {
+
+                cameraStream =
+                    await navigator.mediaDevices.getUserMedia({
+
+                        video: {
+                            facingMode: "user"
+                        },
+
+                        audio: false
+
+                    });
+
+
+                video.srcObject = cameraStream;
+
+                cameraScreen.style.display = "block";
+
+
+            } catch (error) {
+
+                alert(
+                    "ক্যামেরা চালু করা যাচ্ছে না। মোবাইলে ক্যামেরার Permission Allow করুন।"
+                );
+
+                console.log(error);
+
+            }
+
+        }
+
+
+
+        /* CLOSE CAMERA */
+
+        function closeCamera() {
+
+            const video =
+                document.getElementById("camera-video");
+
+
+            if (cameraStream) {
+
+                cameraStream
+                    .getTracks()
+                    .forEach(track => track.stop());
+
+                cameraStream = null;
+
+            }
+
+
+            video.srcObject = null;
+
+            document.getElementById("camera-screen")
+                .style.display = "none";
+
+        }
+
+
+
+        /* TAKE PHOTO */
+
+        function takePhoto() {
+
+            alert(
+                "ছবি তোলার পরের ধাপে নির্বাচিত গন্তব্যের ছবি আপনার ছবির সঙ্গে যুক্ত করা হবে।"
+            );
+
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
