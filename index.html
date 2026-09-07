@@ -1,136 +1,53 @@
+```html
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>বাংলাদেশ টুর</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
 
     <style>
         * {
             box-sizing: border-box;
         }
 
-        html,
         body {
             margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100%;
-        }
-
-        body {
-            font-family: 'Noto Serif Bengali', serif;
-            background: #000;
-        }
-
-        /* HERO */
-
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.30);
-        }
-
-        .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-content h1 {
-            margin: 0;
-            font-size: 72px;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .hero-content p {
-            margin: 18px 0 30px;
-            font-size: 22px;
-        }
-
-        .explore-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            border: 1px solid white;
-            border-radius: 50px;
-            color: white;
-            text-decoration: none;
             font-family: Arial, sans-serif;
-            font-size: 16px;
-        }
-
-        .explore-btn:hover {
-            background: white;
+            background: #f5f5f5;
             color: #111;
         }
 
-        /* DESTINATIONS */
+        .screen {
+            min-height: 100vh;
+            padding: 25px 18px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 30px;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 25px;
+        }
 
         .destinations {
-            background: #f7f7f5;
-            padding: 90px 7%;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-title h2 {
-            margin: 0 0 10px;
-            font-size: 42px;
-            color: #111;
-        }
-
-        .section-title p {
-            margin: 0;
-            font-size: 18px;
-            color: #666;
-        }
-
-        .destination-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            max-width: 500px;
+            margin: auto;
         }
 
         .destination-card {
             background: white;
             border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
             cursor: pointer;
-        }
-
-        .destination-card:hover {
-            transform: translateY(-8px);
         }
 
         .destination-card img {
@@ -139,900 +56,682 @@
             display: block;
         }
 
-        .card-content {
-            padding: 22px;
-        }
-
-        .card-content h3 {
-            margin: 0 0 8px;
-            font-size: 26px;
-            color: #111;
-        }
-
-        .card-content p {
-            margin: 0;
-            font-size: 16px;
-            line-height: 1.7;
-            color: #666;
-        }
-
-        /* TOUR SCREEN */
-
-        #tour-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #000;
-            display: none;
-        }
-
-        .tour-background {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .tour-background img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .tour-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.35);
-        }
-
-        .tour-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            text-align: center;
-            color: white;
-        }
-
-        .tour-content h1 {
-            margin: 0 0 12px;
-            font-family: Arial, sans-serif;
-            font-size: 42px;
-        }
-
-        .tour-content p {
-            margin: 0 0 30px;
+        .destination-card h2 {
+            margin: 14px;
             font-size: 22px;
         }
 
-        .tour-btn {
-            border: 0;
-            padding: 14px 28px;
-            margin: 5px;
-            border-radius: 50px;
-            font-size: 17px;
-            cursor: pointer;
-            background: white;
-            color: #111;
-        }
 
-        .close-btn {
-            background: transparent;
-            color: white;
-            border: 1px solid white;
-        }
+        /* =========================
+           CAMERA SCREEN
+        ========================= */
 
-        /* CAMERA SCREEN */
-
-        #camera-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            background: #000;
+        .camera-screen {
             display: none;
+            min-height: 100vh;
+            background: #000;
+            color: white;
+            position: relative;
             overflow: hidden;
         }
 
-        #camera-video {
+        #camera {
             width: 100%;
-            height: 100%;
+            height: 100vh;
             object-fit: cover;
             display: block;
-        }
-
-        .camera-ui {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            padding-bottom: 40px;
         }
 
         .camera-title {
             position: absolute;
-            top: 30px;
+            top: 20px;
             left: 0;
             right: 0;
+            z-index: 5;
             text-align: center;
-            color: white;
-            font-size: 22px;
-            text-shadow: 0 2px 8px black;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 2px 5px #000;
         }
 
         .capture-btn {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+
             width: 72px;
             height: 72px;
+
             border-radius: 50%;
-            border: 5px solid white;
-            background: transparent;
+
+            border: 6px solid white;
+            background: white;
+
             cursor: pointer;
-            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+            z-index: 20;
         }
 
-        .camera-close {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid white;
-            color: white;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
+        .capture-btn:active {
+            transform: translateX(-50%) scale(0.9);
         }
 
-        /* RESULT SCREEN */
 
-        #result-screen {
-            position: fixed;
-            inset: 0;
-            z-index: 11000;
-            background: #111;
+        /* =========================
+           RESULT SCREEN
+        ========================= */
+
+        .result-screen {
             display: none;
-            overflow-y: auto;
-        }
-
-        .result-container {
-            width: 100%;
-            min-height: 100%;
-            padding: 25px 15px 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            min-height: 100vh;
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            color: white;
         }
 
         .result-title {
-            color: white;
-            font-size: 26px;
-            margin: 0 0 20px;
-            text-align: center;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
 
-        #result-canvas {
-            width: min(92vw, 600px);
-            height: auto;
+        #resultCanvas {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
             display: block;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            margin: auto;
         }
 
-        .result-buttons {
-            margin-top: 25px;
-            text-align: center;
-        }
-
-        .result-btn {
-            border: 0;
+        .back-btn {
+            margin-top: 20px;
             padding: 13px 25px;
-            margin: 5px;
-            border-radius: 50px;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: #111;
             font-size: 16px;
             cursor: pointer;
         }
 
-        .save-btn {
-            background: white;
-            color: #111;
-        }
-
-        .again-btn {
-            background: transparent;
-            color: white;
-            border: 1px solid white;
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 768px) {
-
-            .hero-content h1 {
-                font-size: 48px;
-            }
-
-            .hero-content p {
-                font-size: 18px;
-            }
-
-            .destination-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-title h2 {
-                font-size: 34px;
-            }
-
-            .tour-content h1 {
-                font-size: 30px;
-            }
-
-            .tour-content p {
-                font-size: 18px;
-            }
-
-            .result-title {
-                font-size: 22px;
-            }
-        }
     </style>
-
 </head>
+
 
 <body>
 
-    <!-- HERO -->
 
-    <section class="hero">
+    <!-- =========================
+         DESTINATION SCREEN
+    ========================= -->
 
-        <img src="./images/hero.jpg" alt="বাংলাদেশের পর্যটন">
+    <section id="homeScreen" class="screen">
 
-        <div class="overlay"></div>
+        <h1>ইন্সট্যান্ট বাংলাদেশ টুর</h1>
 
-        <div class="hero-content">
+        <p>একটি জায়গা বেছে নিন</p>
 
-            <h1>বাংলাদেশ টুর</h1>
 
-            <p>চলো বাংলাদেশকে নতুনভাবে দেখি</p>
+        <div class="destinations">
 
-            <a href="#destinations" class="explore-btn">
-                Explore Bangladesh
-            </a>
+
+            <!-- COX'S BAZAR -->
+
+            <div class="destination-card"
+                 onclick="selectDestination('cox')">
+
+                <img
+                    src="images/coxs-bazar.jpg"
+                    alt="কক্সবাজার"
+                >
+
+                <h2>কক্সবাজার</h2>
+
+            </div>
+
+
+
+            <!-- SYLHET -->
+
+            <div class="destination-card"
+                 onclick="selectDestination('sylhet')">
+
+                <img
+                    src="images/sylhet.jpg"
+                    alt="সিলেট"
+                >
+
+                <h2>সিলেট</h2>
+
+            </div>
+
+
+
+            <!-- SUNDARBANS -->
+
+            <div class="destination-card"
+                 onclick="selectDestination('sundarbans')">
+
+                <img
+                    src="images/sundarbans.jpg"
+                    alt="সুন্দরবন"
+                >
+
+                <h2>সুন্দরবন</h2>
+
+            </div>
+
 
         </div>
 
     </section>
 
 
-    <!-- DESTINATIONS -->
 
-    <section class="destinations" id="destinations">
+    <!-- =========================
+         CAMERA SCREEN
+    ========================= -->
 
-        <div class="section-title">
-
-            <h2>জনপ্রিয় গন্তব্য</h2>
-
-            <p>একটি গন্তব্য বেছে নিন</p>
-
-        </div>
+    <section id="cameraScreen"
+             class="camera-screen">
 
 
-        <div class="destination-grid">
+        <div class="camera-title">
 
-
-            <div class="destination-card"
-                onclick="openTour('coxs-bazar')">
-
-                <img
-                    src="./images/coxs-bazar.jpg"
-                    alt="কক্সবাজার">
-
-                <div class="card-content">
-
-                    <h3>কক্সবাজার</h3>
-
-                    <p>
-                        সমুদ্র, সূর্যাস্ত আর অসীম সৌন্দর্যের ঠিকানা।
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="destination-card"
-                onclick="openTour('sylhet')">
-
-                <img
-                    src="./images/sylhet.jpg"
-                    alt="সিলেট">
-
-                <div class="card-content">
-
-                    <h3>সিলেট</h3>
-
-                    <p>
-                        সবুজ চা-বাগান, পাহাড় আর প্রকৃতির অপূর্ব সৌন্দর্য।
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="destination-card"
-                onclick="openTour('sundarbans')">
-
-                <img
-                    src="./images/sundarbans.jpg"
-                    alt="সুন্দরবন">
-
-                <div class="card-content">
-
-                    <h3>সুন্দরবন</h3>
-
-                    <p>
-                        প্রকৃতি ও বন্যতার এক অনন্য পৃথিবী।
-                    </p>
-
-                </div>
-
-            </div>
+            <span id="selectedPlace"></span>
 
         </div>
 
-    </section>
-
-
-    <!-- TOUR SCREEN -->
-
-    <div id="tour-screen"></div>
-
-
-    <!-- CAMERA SCREEN -->
-
-    <div id="camera-screen">
 
         <video
-            id="camera-video"
+            id="camera"
             autoplay
             playsinline>
         </video>
 
-        <div class="camera-title">
-            Instant Bangladesh Tour
-        </div>
 
         <button
-            class="camera-close"
-            onclick="closeCamera()">
-            ✕
+            type="button"
+            class="capture-btn"
+            onclick="takePhoto()">
         </button>
 
-        <div class="camera-ui">
 
-            <button
-                class="capture-btn"
-                onclick="takePhoto">
-            </button>
-
-        </div>
-
-    </div>
+    </section>
 
 
-    <!-- RESULT SCREEN -->
 
-    <div id="result-screen">
+    <!-- =========================
+         RESULT SCREEN
+    ========================= -->
 
-        <div class="result-container">
+    <section id="resultScreen"
+             class="result-screen">
 
-            <h2 class="result-title">
-                আপনার Instant Bangladesh Tour
-            </h2>
 
-            <canvas id="result-canvas"></canvas>
+        <div class="result-title">
 
-            <div class="result-buttons">
-
-                <button
-                    class="result-btn save-btn"
-                    onclick="savePhoto()">
-                    ⬇ ছবি সেভ করুন
-                </button>
-
-                <button
-                    class="result-btn again-btn"
-                    onclick="takeAnotherPhoto()">
-                    ↻ আবার ছবি তুলুন
-                </button>
-
-            </div>
+            আপনার বাংলাদেশ টুর 📸
 
         </div>
 
-    </div>
+
+        <canvas id="resultCanvas"></canvas>
+
+
+        <button
+            type="button"
+            class="back-btn"
+            onclick="location.reload()">
+
+            আবার চেষ্টা করুন
+
+        </button>
+
+
+    </section>
+
 
 
     <script>
 
+
+        /* =========================
+           VARIABLES
+        ========================= */
+
         let selectedDestination = "";
+        let selectedImage = "";
 
-        let cameraStream = null;
-
-
-        function getDestinationName(destination) {
-
-            if (destination === "coxs-bazar")
-                return "কক্সবাজার";
-
-            if (destination === "sylhet")
-                return "সিলেট";
-
-            if (destination === "sundarbans")
-                return "সুন্দরবন";
-
-            return destination;
-        }
+        const video =
+            document.getElementById("camera");
 
 
-        function openTour(destination) {
 
-            selectedDestination = destination;
+        /* =========================
+           DESTINATIONS
+        ========================= */
 
-            const name =
-                getDestinationName(destination);
+        const destinations = {
 
-            const tourScreen =
-                document.getElementById("tour-screen");
+            cox: {
 
-            tourScreen.style.display = "block";
+                name: "কক্সবাজার",
 
-            tourScreen.innerHTML = `
+                image:
+                    "images/coxs-bazar.jpg"
 
-                <div class="tour-background">
-
-                    <img
-                        src="./images/${destination}.jpg"
-                        alt="${name}">
-
-                    <div class="tour-overlay"></div>
-
-                    <div class="tour-content">
-
-                        <h1>
-                            Instant Bangladesh Tour
-                        </h1>
-
-                        <p>
-                            ${name} — এখন নিজেকে এই গন্তব্যে দেখুন
-                        </p>
-
-                        <button
-                            class="tour-btn"
-                            onclick="openCamera()">
-
-                            📷 ছবি তুলুন
-
-                        </button>
-
-                        <button
-                            class="tour-btn close-btn"
-                            onclick="closeTour()">
-
-                            ✕ ফিরে যান
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-        }
+            },
 
 
-        function closeTour() {
+            sylhet: {
 
-            const tourScreen =
-                document.getElementById("tour-screen");
+                name: "সিলেট",
 
-            tourScreen.style.display = "none";
+                image:
+                    "images/sylhet.jpg"
 
-            tourScreen.innerHTML = "";
-        }
+            },
 
 
-        async function openCamera() {
+            sundarbans: {
 
-            const cameraScreen =
-                document.getElementById("camera-screen");
+                name: "সুন্দরবন",
 
-            const video =
-                document.getElementById("camera-video");
+                image:
+                    "images/sundarbans.jpg"
+
+            }
+
+        };
+
+
+
+        /* =========================
+           SELECT DESTINATION
+        ========================= */
+
+        async function selectDestination(place) {
+
+
+            selectedDestination = place;
+
+
+            selectedImage =
+                destinations[place].image;
+
+
+            document
+                .getElementById("selectedPlace")
+                .innerText =
+                "📍 " +
+                destinations[place].name;
+
+
+            document
+                .getElementById("homeScreen")
+                .style.display = "none";
+
+
+            document
+                .getElementById("cameraScreen")
+                .style.display = "block";
+
 
             try {
 
-                if (!navigator.mediaDevices ||
-                    !navigator.mediaDevices.getUserMedia) {
 
-                    alert(
-                        "এই ব্রাউজারে ক্যামেরা ব্যবহার করা যাচ্ছে না।"
-                    );
-
-                    return;
-                }
-
-                cameraStream =
-                    await navigator.mediaDevices.getUserMedia({
+                const stream =
+                    await navigator.mediaDevices
+                    .getUserMedia({
 
                         video: {
-                            facingMode: "user",
-                            width: {
-                                ideal: 1080
-                            },
-                            height: {
-                                ideal: 1920
-                            }
+
+                            facingMode: "user"
+
                         },
 
                         audio: false
+
                     });
 
-                video.srcObject = cameraStream;
 
-                cameraScreen.style.display = "block";
+                video.srcObject = stream;
+
+
+                /*
+                 * Camera চালু হলে play
+                 */
 
                 await video.play();
 
-            } catch (error) {
+
+            }
+
+            catch (error) {
+
 
                 alert(
-                    "ক্যামেরা চালু করা যাচ্ছে না। মোবাইলে Camera Permission Allow করুন।"
+                    "ক্যামেরা চালু করা যাচ্ছে না। Camera permission দিন।"
                 );
 
+
                 console.log(error);
+
             }
+
         }
 
 
-        function closeCamera() {
 
-            const video =
-                document.getElementById("camera-video");
-
-            if (cameraStream) {
-
-                cameraStream
-                    .getTracks()
-                    .forEach(track => track.stop());
-
-                cameraStream = null;
-            }
-
-            video.srcObject = null;
-
-            document.getElementById("camera-screen")
-                .style.display = "none";
-        }
-
+        /* =========================
+           TAKE PHOTO
+        ========================= */
 
         function takePhoto() {
 
-            const video =
-                document.getElementById("camera-video");
 
-            if (!video.videoWidth ||
-                !video.videoHeight) {
+            /*
+             * Camera এখনও ready না হলে
+             * loadedmetadata-এর জন্য অপেক্ষা করবে
+             */
 
-                alert(
-                    "ক্যামেরা প্রস্তুত হচ্ছে। একটু অপেক্ষা করুন।"
+            if (
+                !video.videoWidth ||
+                !video.videoHeight
+            ) {
+
+
+                video.addEventListener(
+
+                    "loadedmetadata",
+
+                    function () {
+
+                        captureNow();
+
+                    },
+
+                    {
+                        once: true
+                    }
+
                 );
 
+
                 return;
+
             }
 
-            const cameraCanvas =
-                document.createElement("canvas");
 
-            cameraCanvas.width =
-                video.videoWidth;
+            captureNow();
 
-            cameraCanvas.height =
-                video.videoHeight;
-
-            const cameraContext =
-                cameraCanvas.getContext("2d");
-
-            cameraContext.save();
-
-            cameraContext.translate(
-                cameraCanvas.width,
-                0
-            );
-
-            cameraContext.scale(-1, 1);
-
-            cameraContext.drawImage(
-                video,
-                0,
-                0,
-                cameraCanvas.width,
-                cameraCanvas.height
-            );
-
-            cameraContext.restore();
-
-            closeCamera();
-
-            createFinalPhoto(cameraCanvas);
         }
 
 
-        function createFinalPhoto(cameraCanvas) {
+
+        /* =========================
+           CAPTURE NOW
+        ========================= */
+
+        function captureNow() {
+
+
+            const canvas =
+                document.getElementById(
+                    "resultCanvas"
+                );
+
+
+            const ctx =
+                canvas.getContext("2d");
+
 
             const background =
                 new Image();
 
-            background.onload = function() {
-
-                const finalCanvas =
-                    document.getElementById("result-canvas");
-
-                const finalWidth = 1080;
-
-                const finalHeight = 1350;
-
-                finalCanvas.width =
-                    finalWidth;
-
-                finalCanvas.height =
-                    finalHeight;
-
-                const ctx =
-                    finalCanvas.getContext("2d");
 
 
-                drawCoverImage(
-                    ctx,
-                    background,
-                    0,
-                    0,
-                    finalWidth,
-                    finalHeight
-                );
+            background.onload =
+                function () {
 
 
-                ctx.fillStyle =
-                    "rgba(0,0,0,0.08)";
+                    /*
+                     * FINAL PHOTO SIZE
+                     */
 
-                ctx.fillRect(
-                    0,
-                    0,
-                    finalWidth,
-                    finalHeight
-                );
+                    const canvasWidth = 1080;
+
+                    const canvasHeight = 1350;
 
 
-                drawContainImage(
-                    ctx,
-                    cameraCanvas,
-                    0,
-                    0,
-                    finalWidth,
-                    finalHeight
-                );
+                    canvas.width =
+                        canvasWidth;
+
+                    canvas.height =
+                        canvasHeight;
 
 
-                const name =
-                    getDestinationName(
-                        selectedDestination
+
+                    /*
+                     * =====================
+                     * BACKGROUND IMAGE
+                     * =====================
+                     */
+
+
+                    const bgRatio =
+                        background.width /
+                        background.height;
+
+
+                    const canvasRatio =
+                        canvasWidth /
+                        canvasHeight;
+
+
+                    let bgWidth;
+                    let bgHeight;
+                    let bgX;
+                    let bgY;
+
+
+
+                    if (
+                        bgRatio > canvasRatio
+                    ) {
+
+
+                        bgHeight =
+                            canvasHeight;
+
+
+                        bgWidth =
+                            bgHeight *
+                            bgRatio;
+
+
+                        bgX =
+                            (
+                                canvasWidth -
+                                bgWidth
+                            ) / 2;
+
+
+                        bgY = 0;
+
+                    }
+
+                    else {
+
+
+                        bgWidth =
+                            canvasWidth;
+
+
+                        bgHeight =
+                            bgWidth /
+                            bgRatio;
+
+
+                        bgX = 0;
+
+
+                        bgY =
+                            (
+                                canvasHeight -
+                                bgHeight
+                            ) / 2;
+
+                    }
+
+
+
+                    /*
+                     * Background draw
+                     */
+
+                    ctx.drawImage(
+
+                        background,
+
+                        bgX,
+                        bgY,
+
+                        bgWidth,
+                        bgHeight
+
                     );
 
 
-                ctx.fillStyle =
-                    "rgba(0,0,0,0.45)";
 
-                ctx.fillRect(
-                    0,
-                    finalHeight - 100,
-                    finalWidth,
-                    100
-                );
+                    /*
+                     * =====================
+                     * CAMERA PHOTO
+                     * =====================
+                     */
 
 
-                ctx.fillStyle =
-                    "white";
+                    /*
+                     * Camera image ছোট রাখা
+                     */
 
-                ctx.font =
-                    "bold 42px Arial";
-
-                ctx.textAlign =
-                    "center";
-
-                ctx.fillText(
-                    "Instant Bangladesh Tour",
-                    finalWidth / 2,
-                    finalHeight - 55
-                );
+                    const cameraWidth = 420;
 
 
-                ctx.font =
-                    "30px Arial";
-
-                ctx.fillText(
-                    name,
-                    finalWidth / 2,
-                    finalHeight - 18
-                );
+                    const cameraRatio =
+                        video.videoHeight /
+                        video.videoWidth;
 
 
-                document.getElementById("result-screen")
-                    .style.display = "block";
-            };
+                    const cameraHeight =
+                        cameraWidth *
+                        cameraRatio;
 
 
-            background.onerror = function() {
+                    /*
+                     * Camera image
+                     * নিচের দিকে থাকবে
+                     */
 
-                alert(
-                    "গন্তব্যের ছবি লোড করা যাচ্ছে না।"
-                );
-            };
+                    const cameraX =
+                        (
+                            canvasWidth -
+                            cameraWidth
+                        ) / 2;
 
+
+                    const cameraY =
+                        canvasHeight -
+                        cameraHeight -
+                        100;
+
+
+
+                    /*
+                     * Camera image draw
+                     */
+
+                    ctx.drawImage(
+
+                        video,
+
+                        cameraX,
+                        cameraY,
+
+                        cameraWidth,
+                        cameraHeight
+
+                    );
+
+
+
+                    /*
+                     * =====================
+                     * CAMERA বন্ধ
+                     * =====================
+                     */
+
+                    if (
+                        video.srcObject
+                    ) {
+
+
+                        video.srcObject
+                            .getTracks()
+                            .forEach(
+
+                                function (track) {
+
+                                    track.stop();
+
+                                }
+
+                            );
+
+                    }
+
+
+
+                    /*
+                     * =====================
+                     * SCREEN CHANGE
+                     * =====================
+                     */
+
+                    document
+                        .getElementById(
+                            "cameraScreen"
+                        )
+                        .style.display =
+                        "none";
+
+
+                    document
+                        .getElementById(
+                            "resultScreen"
+                        )
+                        .style.display =
+                        "block";
+
+
+                };
+
+
+
+            /*
+             * Destination image load
+             */
 
             background.src =
-                "./images/" +
-                selectedDestination +
-                ".jpg";
+                selectedImage;
+
         }
 
-
-        function drawCoverImage(
-            ctx,
-            image,
-            x,
-            y,
-            width,
-            height
-        ) {
-
-            const imageRatio =
-                image.width / image.height;
-
-            const boxRatio =
-                width / height;
-
-            let drawWidth;
-            let drawHeight;
-            let drawX;
-            let drawY;
-
-
-            if (imageRatio > boxRatio) {
-
-                drawHeight = height;
-
-                drawWidth =
-                    height * imageRatio;
-
-                drawX =
-                    x + (width - drawWidth) / 2;
-
-                drawY = y;
-
-            } else {
-
-                drawWidth = width;
-
-                drawHeight =
-                    width / imageRatio;
-
-                drawX = x;
-
-                drawY =
-                    y + (height - drawHeight) / 2;
-            }
-
-
-            ctx.drawImage(
-                image,
-                drawX,
-                drawY,
-                drawWidth,
-                drawHeight
-            );
-        }
-
-
-        function drawContainImage(
-            ctx,
-            image,
-            x,
-            y,
-            width,
-            height
-        ) {
-
-            const imageRatio =
-                image.width / image.height;
-
-            const boxRatio =
-                width / height;
-
-            let drawWidth;
-            let drawHeight;
-            let drawX;
-            let drawY;
-
-
-            if (imageRatio > boxRatio) {
-
-                drawWidth = width;
-
-                drawHeight =
-                    width / imageRatio;
-
-                drawX = x;
-
-                drawY =
-                    y + (height - drawHeight) / 2;
-
-            } else {
-
-                drawHeight = height;
-
-                drawWidth =
-                    height * imageRatio;
-
-                drawX =
-                    x + (width - drawWidth) / 2;
-
-                drawY = y;
-            }
-
-
-            ctx.drawImage(
-                image,
-                drawX,
-                drawY,
-                drawWidth,
-                drawHeight
-            );
-        }
-
-
-        function savePhoto() {
-
-            const canvas =
-                document.getElementById("result-canvas");
-
-            const link =
-                document.createElement("a");
-
-            link.download =
-                "instant-bangladesh-tour.png";
-
-            link.href =
-                canvas.toDataURL("image/png");
-
-            link.click();
-        }
-
-
-        function takeAnotherPhoto() {
-
-            document.getElementById("result-screen")
-                .style.display = "none";
-
-            openCamera();
-        }
 
     </script>
 
-</body>
 
+</body>
 </html>
+```
