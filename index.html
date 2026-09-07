@@ -38,7 +38,7 @@ button{
     background:
         linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.45)),
         url("images/hero.jpg") center/cover;
-    color:white;
+    color:#fff;
 }
 
 .hero h1{
@@ -73,7 +73,7 @@ button{
     border:0;
     border-radius:18px;
     overflow:hidden;
-    background:white;
+    background:#fff;
     box-shadow:0 8px 30px rgba(0,0,0,.12);
     cursor:pointer;
     padding:0;
@@ -105,8 +105,10 @@ button{
     color:#666;
 }
 
-#cameraScreen,
-#resultScreen{
+
+/* CAMERA */
+
+#cameraScreen{
     display:none;
     position:fixed;
     inset:0;
@@ -140,7 +142,7 @@ button{
     justify-content:space-between;
     z-index:5;
     background:linear-gradient(rgba(0,0,0,.65),transparent);
-    color:white;
+    color:#fff;
 }
 
 .camera-top h2{
@@ -153,9 +155,8 @@ button{
     border-radius:50%;
     border:0;
     background:rgba(0,0,0,.5);
-    color:white;
+    color:#fff;
     font-size:25px;
-    cursor:pointer;
 }
 
 .camera-bottom{
@@ -175,7 +176,7 @@ button{
     width:78px;
     height:78px;
     border-radius:50%;
-    border:6px solid white;
+    border:6px solid #fff;
     background:#fff;
     box-shadow:0 0 0 3px rgba(255,255,255,.3);
     cursor:pointer;
@@ -185,31 +186,34 @@ button{
     transform:scale(.92);
 }
 
-#cameraLoading{
-    position:absolute;
-    inset:0;
-    z-index:10;
+
+/* PROCESSING */
+
+#processingScreen{
     display:none;
-    justify-content:center;
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    background:rgba(0,0,0,.88);
+    color:#fff;
     align-items:center;
+    justify-content:center;
     text-align:center;
     padding:30px;
-    color:white;
-    background:rgba(0,0,0,.72);
 }
 
-.loading-box{
-    max-width:320px;
+.processing-box{
+    max-width:340px;
 }
 
 .spinner{
-    width:50px;
-    height:50px;
-    border:5px solid rgba(255,255,255,.3);
-    border-top-color:white;
+    width:52px;
+    height:52px;
+    border:5px solid rgba(255,255,255,.25);
+    border-top-color:#fff;
     border-radius:50%;
     animation:spin 1s linear infinite;
-    margin:0 auto 20px;
+    margin:0 auto 22px;
 }
 
 @keyframes spin{
@@ -218,7 +222,19 @@ button{
     }
 }
 
+#processingText{
+    font-size:18px;
+    line-height:1.6;
+}
+
+
+/* RESULT */
+
 #resultScreen{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:1500;
     overflow:auto;
     background:#111;
 }
@@ -267,7 +283,9 @@ button{
     color:#fff;
 }
 
+
 @media(max-width:700px){
+
     .destination-grid{
         grid-template-columns:1fr;
     }
@@ -275,62 +293,131 @@ button{
     .destination-card img{
         height:210px;
     }
+
 }
 </style>
 </head>
 
+
 <body>
 
-<!-- ================= HOME ================= -->
+
+<!-- ==================================================
+     HOME
+================================================== -->
 
 <section id="homeScreen">
 
     <div class="hero">
-        <h1>ইন্সট্যান্ট বাংলাদেশ টুর</h1>
-        <p>ছবি তুলুন। মুহূর্তেই ঘুরে আসুন বাংলাদেশ।</p>
+
+        <h1>
+            ইন্সট্যান্ট বাংলাদেশ টুর
+        </h1>
+
+        <p>
+            ছবি তুলুন। মুহূর্তেই ঘুরে আসুন বাংলাদেশ।
+        </p>
+
     </div>
+
 
     <div class="destinations">
 
-        <h2>কোথায় যেতে চান?</h2>
+        <h2>
+            কোথায় যেতে চান?
+        </h2>
+
 
         <div class="destination-grid">
 
-            <button class="destination-card" data-place="cox">
-                <img src="images/coxs-bazar.jpg" alt="কক্সবাজার">
+
+            <button
+                class="destination-card"
+                data-place="cox">
+
+                <img
+                    src="images/coxs-bazar.jpg"
+                    alt="কক্সবাজার">
+
                 <div class="destination-info">
-                    <h3>কক্সবাজার</h3>
-                    <p>সমুদ্রের কাছে চলে যান</p>
+
+                    <h3>
+                        কক্সবাজার
+                    </h3>
+
+                    <p>
+                        সমুদ্রের কাছে চলে যান
+                    </p>
+
                 </div>
+
             </button>
 
-            <button class="destination-card" data-place="sylhet">
-                <img src="images/sylhet.jpg" alt="সিলেট">
+
+
+            <button
+                class="destination-card"
+                data-place="sylhet">
+
+                <img
+                    src="images/sylhet.jpg"
+                    alt="সিলেট">
+
                 <div class="destination-info">
-                    <h3>সিলেট</h3>
-                    <p>সবুজের রাজ্যে ঘুরে আসুন</p>
+
+                    <h3>
+                        সিলেট
+                    </h3>
+
+                    <p>
+                        সবুজের রাজ্যে ঘুরে আসুন
+                    </p>
+
                 </div>
+
             </button>
 
-            <button class="destination-card" data-place="sundarbans">
-                <img src="images/sundarbans.jpg" alt="সুন্দরবন">
+
+
+            <button
+                class="destination-card"
+                data-place="sundarbans">
+
+                <img
+                    src="images/sundarbans.jpg"
+                    alt="সুন্দরবন">
+
                 <div class="destination-info">
-                    <h3>সুন্দরবন</h3>
-                    <p>প্রকৃতির গভীরে চলে যান</p>
+
+                    <h3>
+                        সুন্দরবন
+                    </h3>
+
+                    <p>
+                        প্রকৃতির গভীরে চলে যান
+                    </p>
+
                 </div>
+
             </button>
+
 
         </div>
+
     </div>
 
 </section>
 
 
-<!-- ================= CAMERA ================= -->
+
+<!-- ==================================================
+     CAMERA
+================================================== -->
 
 <section id="cameraScreen">
 
     <div class="camera-wrapper">
+
 
         <video
             id="cameraVideo"
@@ -338,6 +425,7 @@ button{
             playsinline
             muted>
         </video>
+
 
         <div class="camera-top">
 
@@ -353,19 +441,6 @@ button{
 
         </div>
 
-        <div id="cameraLoading">
-
-            <div class="loading-box">
-
-                <div class="spinner"></div>
-
-                <div id="loadingText">
-                    Background remove হচ্ছে...
-                </div>
-
-            </div>
-
-        </div>
 
         <div class="camera-bottom">
 
@@ -377,22 +452,48 @@ button{
 
         </div>
 
+
     </div>
 
 </section>
 
 
-<!-- ================= RESULT ================= -->
+
+<!-- ==================================================
+     PROCESSING
+================================================== -->
+
+<section id="processingScreen">
+
+    <div class="processing-box">
+
+        <div class="spinner"></div>
+
+        <div id="processingText">
+            ছবি প্রস্তুত হচ্ছে...
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     RESULT
+================================================== -->
 
 <section id="resultScreen">
 
     <div class="result-wrapper">
+
 
         <canvas
             id="resultCanvas"
             width="1080"
             height="1350">
         </canvas>
+
 
         <div class="result-buttons">
 
@@ -406,9 +507,11 @@ button{
 
         </div>
 
+
     </div>
 
 </section>
+
 
 
 <script>
@@ -416,9 +519,9 @@ button{
 "use strict";
 
 
-/* =========================================
-   DESTINATION DATA
-========================================= */
+/* ==================================================
+   DESTINATIONS
+================================================== */
 
 const destinations = {
 
@@ -440,15 +543,19 @@ const destinations = {
 };
 
 
-/* =========================================
+
+/* ==================================================
    ELEMENTS
-========================================= */
+================================================== */
 
 const homeScreen =
     document.getElementById("homeScreen");
 
 const cameraScreen =
     document.getElementById("cameraScreen");
+
+const processingScreen =
+    document.getElementById("processingScreen");
 
 const resultScreen =
     document.getElementById("resultScreen");
@@ -465,11 +572,8 @@ const closeCamera =
 const captureButton =
     document.getElementById("captureButton");
 
-const cameraLoading =
-    document.getElementById("cameraLoading");
-
-const loadingText =
-    document.getElementById("loadingText");
+const processingText =
+    document.getElementById("processingText");
 
 const resultCanvas =
     document.getElementById("resultCanvas");
@@ -481,9 +585,10 @@ const againButton =
     document.getElementById("againButton");
 
 
-/* =========================================
+
+/* ==================================================
    VARIABLES
-========================================= */
+================================================== */
 
 let currentPlace = null;
 
@@ -493,75 +598,98 @@ let selfieSegmentation = null;
 
 let mediaPipePromise = null;
 
-let aiReady = false;
+let isProcessing = false;
 
 
-/* =========================================
-   MEDIA PIPE LOAD
-========================================= */
+
+/* ==================================================
+   LOAD MEDIAPIPE
+================================================== */
 
 function loadMediaPipe(){
 
     if(mediaPipePromise){
+
         return mediaPipePromise;
+
     }
 
-    mediaPipePromise = new Promise(function(resolve, reject){
 
-        if(
-            typeof SelfieSegmentation !== "undefined"
-        ){
-            resolve(true);
-            return;
-        }
+    mediaPipePromise =
+        new Promise(function(resolve,reject){
 
-        const script =
-            document.createElement("script");
+            if(
+                typeof SelfieSegmentation !==
+                "undefined"
+            ){
 
-        script.src =
-            "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js";
+                resolve(true);
 
-        script.onload = function(){
+                return;
 
-            resolve(true);
+            }
 
-        };
 
-        script.onerror = function(){
+            const script =
+                document.createElement("script");
 
-            reject(
-                new Error(
-                    "AI library load হয়নি"
-                )
-            );
 
-        };
+            script.src =
+                "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/selfie_segmentation.js";
 
-        document.head.appendChild(script);
 
-    });
+            script.onload =
+                function(){
+
+                    resolve(true);
+
+                };
+
+
+            script.onerror =
+                function(){
+
+                    reject(
+                        new Error(
+                            "AI library load হয়নি। Internet connection check করুন।"
+                        )
+                    );
+
+                };
+
+
+            document.head.appendChild(script);
+
+        });
+
 
     return mediaPipePromise;
 
 }
 
 
-/* =========================================
-   INITIALIZE AI
-========================================= */
 
-function initializeAI(){
+/* ==================================================
+   INITIALIZE AI
+================================================== */
+
+async function initializeAI(){
 
     if(selfieSegmentation){
-        return Promise.resolve();
+
+        return selfieSegmentation;
+
     }
 
-    return loadMediaPipe().then(function(){
 
-        selfieSegmentation =
-            new SelfieSegmentation({
+    await loadMediaPipe();
 
-                locateFile: function(file){
+
+    selfieSegmentation =
+        new SelfieSegmentation({
+
+            locateFile:
+                function(file){
 
                     return (
                         "https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation/" +
@@ -570,24 +698,25 @@ function initializeAI(){
 
                 }
 
-            });
-
-        selfieSegmentation.setOptions({
-
-            modelSelection: 0
-
         });
 
-        aiReady = true;
+
+    selfieSegmentation.setOptions({
+
+        modelSelection: 0
 
     });
+
+
+    return selfieSegmentation;
 
 }
 
 
-/* =========================================
-   DESTINATION CLICK
-========================================= */
+
+/* ==================================================
+   DESTINATION BUTTONS
+================================================== */
 
 document
 .querySelectorAll(".destination-card")
@@ -598,7 +727,9 @@ document
         function(){
 
             const place =
-                card.getAttribute("data-place");
+                card.getAttribute(
+                    "data-place"
+                );
 
             startCamera(place);
 
@@ -608,19 +739,31 @@ document
 });
 
 
-/* =========================================
+
+/* ==================================================
    START CAMERA
-========================================= */
+================================================== */
 
 async function startCamera(place){
 
-    currentPlace = place;
+    if(isProcessing){
+
+        return;
+
+    }
+
+
+    currentPlace =
+        place;
+
 
     const destination =
         destinations[place];
 
+
     cameraTitle.textContent =
         destination.name;
+
 
     homeScreen.style.display =
         "none";
@@ -631,10 +774,9 @@ async function startCamera(place){
     cameraScreen.style.display =
         "block";
 
-    cameraLoading.style.display =
-        "none";
 
     try{
+
 
         if(
             !window.isSecureContext &&
@@ -647,21 +789,31 @@ async function startCamera(place){
 
         }
 
+
         if(
             !navigator.mediaDevices ||
             !navigator.mediaDevices.getUserMedia
         ){
 
             throw new Error(
-                "Camera API unavailable"
+                "এই browser-এ camera support নেই।"
             );
 
         }
 
+
+        /*
+         * CAMERA ONLY
+         *
+         * এখানে কোনো AI processing নেই।
+         */
+
         currentStream =
-            await navigator.mediaDevices.getUserMedia({
+            await navigator.mediaDevices
+            .getUserMedia({
 
                 video: {
+
                     facingMode: {
                         ideal: "user"
                     },
@@ -673,45 +825,29 @@ async function startCamera(place){
                     height: {
                         ideal: 720
                     }
+
                 },
 
-                audio: false
+                audio:false
 
             });
+
 
         cameraVideo.srcObject =
             currentStream;
 
+
         await cameraVideo.play();
 
-        /*
-         * IMPORTANT:
-         * Camera already open.
-         * এখন AI background-এ load হবে।
-         * User camera screen-এ থাকতেই
-         * library প্রস্তুত হবে।
-         */
-
-        initializeAI()
-        .catch(function(error){
-
-            console.warn(
-                "AI preload failed:",
-                error
-            );
-
-        });
 
     }
     catch(error){
 
         console.error(error);
 
-        alert(
-            "ক্যামেরা চালু করা যাচ্ছে না। ব্রাউজারে Camera Permission Allow করুন।"
-        );
 
-        stopCameraOnly();
+        stopCamera();
+
 
         cameraScreen.style.display =
             "none";
@@ -719,19 +855,26 @@ async function startCamera(place){
         homeScreen.style.display =
             "block";
 
+
+        alert(
+            "ক্যামেরা চালু করা যাচ্ছে না। Camera Permission Allow করুন।"
+        );
+
     }
 
 }
 
 
-/* =========================================
-   CAPTURE PHOTO
-========================================= */
+
+/* ==================================================
+   CAPTURE BUTTON
+================================================== */
 
 captureButton.addEventListener(
     "click",
     capturePhoto
 );
+
 
 
 captureButton.addEventListener(
@@ -749,9 +892,24 @@ captureButton.addEventListener(
 );
 
 
+
+/* ==================================================
+   CAPTURE PHOTO
+================================================== */
+
 async function capturePhoto(){
 
-    if(!cameraVideo.videoWidth){
+    if(isProcessing){
+
+        return;
+
+    }
+
+
+    if(
+        !cameraVideo.videoWidth ||
+        !cameraVideo.videoHeight
+    ){
 
         alert(
             "ক্যামেরা এখনও প্রস্তুত হয়নি। এক সেকেন্ড পরে আবার চেষ্টা করুন।"
@@ -761,23 +919,25 @@ async function capturePhoto(){
 
     }
 
-    captureButton.disabled =
+
+    isProcessing =
         true;
 
-    cameraLoading.style.display =
-        "flex";
 
-    loadingText.textContent =
-        "ছবি প্রস্তুত হচ্ছে...";
+    /*
+     * =================================================
+     * STEP 1
+     * CAPTURE PHOTO FIRST
+     * =================================================
+     */
+
+    let capturedPhoto;
 
 
     try{
 
         /*
-         * =====================================
-         * STEP 1
-         * Small AI source image
-         * =====================================
+         * Original camera resolution
          */
 
         const originalWidth =
@@ -786,147 +946,277 @@ async function capturePhoto(){
         const originalHeight =
             cameraVideo.videoHeight;
 
-        const MAX_SIZE = 480;
+
+        /*
+         * Keep captured image reasonably small
+         * for mobile AI processing.
+         */
+
+        const MAX_CAPTURE_SIZE =
+            1280;
+
 
         const scale =
             Math.min(
+
                 1,
-                MAX_SIZE /
+
+                MAX_CAPTURE_SIZE /
                 Math.max(
                     originalWidth,
                     originalHeight
                 )
+
             );
 
-        const sourceCanvas =
-            document.createElement("canvas");
 
-        sourceCanvas.width =
-            Math.max(
-                1,
-                Math.round(
-                    originalWidth *
-                    scale
-                )
+        capturedPhoto =
+            document.createElement(
+                "canvas"
             );
 
-        sourceCanvas.height =
-            Math.max(
-                1,
-                Math.round(
-                    originalHeight *
-                    scale
-                )
+
+        capturedPhoto.width =
+            Math.round(
+                originalWidth *
+                scale
             );
 
-        const sourceCtx =
-            sourceCanvas.getContext("2d");
+
+        capturedPhoto.height =
+            Math.round(
+                originalHeight *
+                scale
+            );
+
+
+        const capturedCtx =
+            capturedPhoto.getContext(
+                "2d"
+            );
+
 
         /*
-         * Camera preview is mirrored,
-         * therefore capture also mirrored.
+         * Mirror the captured image
+         * because front camera preview is mirrored.
          */
 
-        sourceCtx.save();
+        capturedCtx.save();
 
-        sourceCtx.translate(
-            sourceCanvas.width,
+
+        capturedCtx.translate(
+            capturedPhoto.width,
             0
         );
 
-        sourceCtx.scale(
+
+        capturedCtx.scale(
             -1,
             1
         );
 
-        sourceCtx.drawImage(
+
+        capturedCtx.drawImage(
 
             cameraVideo,
 
             0,
             0,
 
-            sourceCanvas.width,
-            sourceCanvas.height
+            capturedPhoto.width,
+            capturedPhoto.height
 
         );
 
-        sourceCtx.restore();
+
+        capturedCtx.restore();
 
 
         /*
-         * =====================================
-         * STEP 2
-         * AI ready?
-         * =====================================
+         * =================================================
+         * VERY IMPORTANT
+         *
+         * PHOTO IS NOW CAPTURED.
+         *
+         * Camera can be closed.
+         * AI will work ONLY on capturedPhoto.
+         * =================================================
          */
 
-        loadingText.textContent =
-            "AI background remove হচ্ছে...";
 
+        stopCamera();
 
-        if(!selfieSegmentation){
-
-            await initializeAI();
-
-        }
-
-
-        /*
-         * =====================================
-         * STEP 3
-         * Run segmentation
-         * =====================================
-         */
-
-        const segmentationResult =
-            await runSegmentation(
-                sourceCanvas
-            );
-
-
-        /*
-         * =====================================
-         * STEP 4
-         * Create transparent person
-         * =====================================
-         */
-
-        const personCanvas =
-            createPersonCutout(
-                sourceCanvas,
-                segmentationResult
-            );
-
-
-        /*
-         * =====================================
-         * STEP 5
-         * Create final Bangladesh image
-         * =====================================
-         */
-
-        loadingText.textContent =
-            "বাংলাদেশের গন্তব্য তৈরি হচ্ছে...";
-
-
-        await createFinalImage(
-            personCanvas,
-            destinations[currentPlace]
-        );
-
-
-        /*
-         * =====================================
-         * STEP 6
-         * Stop camera
-         * =====================================
-         */
-
-        stopCameraOnly();
 
         cameraScreen.style.display =
             "none";
+
+
+        processingScreen.style.display =
+            "flex";
+
+
+        processingText.textContent =
+            "ছবি ক্যাপচার হয়েছে। Background remove হচ্ছে...";
+
+
+        /*
+         * =================================================
+         * STEP 2
+         * LOAD AI AFTER CAPTURE
+         * =================================================
+         */
+
+        await initializeAI();
+
+
+        /*
+         * =================================================
+         * STEP 3
+         * MAKE SMALL AI COPY
+         * =================================================
+         *
+         * Original captured photo remains untouched.
+         */
+
+        const AI_MAX_SIZE =
+            480;
+
+
+        const aiScale =
+            Math.min(
+
+                1,
+
+                AI_MAX_SIZE /
+                Math.max(
+
+                    capturedPhoto.width,
+                    capturedPhoto.height
+
+                )
+
+            );
+
+
+        const aiCanvas =
+            document.createElement(
+                "canvas"
+            );
+
+
+        aiCanvas.width =
+            Math.max(
+
+                1,
+
+                Math.round(
+                    capturedPhoto.width *
+                    aiScale
+                )
+
+            );
+
+
+        aiCanvas.height =
+            Math.max(
+
+                1,
+
+                Math.round(
+                    capturedPhoto.height *
+                    aiScale
+                )
+
+            );
+
+
+        const aiCtx =
+            aiCanvas.getContext(
+                "2d"
+            );
+
+
+        aiCtx.drawImage(
+
+            capturedPhoto,
+
+            0,
+            0,
+
+            aiCanvas.width,
+            aiCanvas.height
+
+        );
+
+
+        /*
+         * =================================================
+         * STEP 4
+         * AI BACKGROUND REMOVAL
+         * =================================================
+         */
+
+        processingText.textContent =
+            "AI মানুষটিকে আলাদা করছে...";
+
+
+        const results =
+            await runSegmentation(
+                aiCanvas
+            );
+
+
+        /*
+         * =================================================
+         * STEP 5
+         * PERSON CUTOUT
+         * =================================================
+         */
+
+        processingText.textContent =
+            "Background remove সম্পন্ন হচ্ছে...";
+
+
+        const personCanvas =
+            createPersonCutout(
+
+                aiCanvas,
+
+                results
+
+            );
+
+
+        /*
+         * =================================================
+         * STEP 6
+         * FINAL IMAGE
+         * =================================================
+         */
+
+        processingText.textContent =
+            "আপনাকে বাংলাদেশে নিয়ে যাওয়া হচ্ছে...";
+
+
+        await createFinalImage(
+
+            personCanvas,
+
+            destinations[currentPlace]
+
+        );
+
+
+        /*
+         * =================================================
+         * STEP 7
+         * RESULT
+         * =================================================
+         */
+
+        processingScreen.style.display =
+            "none";
+
 
         resultScreen.style.display =
             "block";
@@ -936,22 +1226,35 @@ async function capturePhoto(){
     catch(error){
 
         console.error(
-            "Capture error:",
+            "PHOTO PROCESSING ERROR:",
             error
         );
 
+
+        processingScreen.style.display =
+            "none";
+
+
+        cameraScreen.style.display =
+            "none";
+
+
+        homeScreen.style.display =
+            "block";
+
+
         alert(
+
             error.message ||
+
             "ছবি তৈরি করা যায়নি। আবার চেষ্টা করুন।"
+
         );
 
     }
     finally{
 
-        cameraLoading.style.display =
-            "none";
-
-        captureButton.disabled =
+        isProcessing =
             false;
 
     }
@@ -959,35 +1262,49 @@ async function capturePhoto(){
 }
 
 
-/* =========================================
-   RUN SEGMENTATION
-========================================= */
+
+/* ==================================================
+   RUN AI SEGMENTATION
+================================================== */
 
 function runSegmentation(canvas){
 
     return new Promise(
         function(resolve,reject){
 
-            let finished = false;
+            let finished =
+                false;
+
 
             const timeout =
                 setTimeout(
                     function(){
 
                         if(finished){
+
                             return;
+
                         }
 
-                        finished = true;
+
+                        finished =
+                            true;
+
 
                         reject(
+
                             new Error(
+
                                 "AI processing করতে বেশি সময় লাগছে। আবার ছবি তুলুন।"
+
                             )
+
                         );
 
                     },
+
                     45000
+
                 );
 
 
@@ -995,14 +1312,20 @@ function runSegmentation(canvas){
                 function(results){
 
                     if(finished){
+
                         return;
+
                     }
 
-                    finished = true;
+
+                    finished =
+                        true;
+
 
                     clearTimeout(
                         timeout
                     );
+
 
                     resolve(results);
 
@@ -1012,23 +1335,31 @@ function runSegmentation(canvas){
 
             selfieSegmentation
             .send({
-                image: canvas
+                image:canvas
             })
-            .catch(function(error){
+            .catch(
+                function(error){
 
-                if(finished){
-                    return;
+                    if(finished){
+
+                        return;
+
+                    }
+
+
+                    finished =
+                        true;
+
+
+                    clearTimeout(
+                        timeout
+                    );
+
+
+                    reject(error);
+
                 }
-
-                finished = true;
-
-                clearTimeout(
-                    timeout
-                );
-
-                reject(error);
-
-            });
+            );
 
         }
     );
@@ -1036,9 +1367,10 @@ function runSegmentation(canvas){
 }
 
 
-/* =========================================
+
+/* ==================================================
    CREATE PERSON CUTOUT
-========================================= */
+================================================== */
 
 function createPersonCutout(
     sourceCanvas,
@@ -1046,70 +1378,95 @@ function createPersonCutout(
 ){
 
     const canvas =
-        document.createElement("canvas");
+        document.createElement(
+            "canvas"
+        );
+
 
     canvas.width =
         sourceCanvas.width;
 
+
     canvas.height =
         sourceCanvas.height;
 
+
     const ctx =
-        canvas.getContext("2d");
-
-
-    /*
-     * Draw original image
-     */
-
-    ctx.drawImage(
-        sourceCanvas,
-        0,
-        0
-    );
-
-
-    /*
-     * Create mask canvas
-     */
-
-    const maskCanvas =
-        document.createElement("canvas");
-
-    maskCanvas.width =
-        sourceCanvas.width;
-
-    maskCanvas.height =
-        sourceCanvas.height;
-
-    const maskCtx =
-        maskCanvas.getContext("2d");
-
-
-    maskCtx.drawImage(
-        results.segmentationMask,
-        0,
-        0,
-        maskCanvas.width,
-        maskCanvas.height
-    );
-
-
-    /*
-     * Read mask pixels
-     */
-
-    const maskData =
-        maskCtx.getImageData(
-            0,
-            0,
-            maskCanvas.width,
-            maskCanvas.height
+        canvas.getContext(
+            "2d"
         );
 
 
     /*
-     * Convert mask to alpha
+     * Draw captured photo
+     */
+
+    ctx.drawImage(
+
+        sourceCanvas,
+
+        0,
+        0
+
+    );
+
+
+    /*
+     * Create mask
+     */
+
+    const maskCanvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    maskCanvas.width =
+        sourceCanvas.width;
+
+
+    maskCanvas.height =
+        sourceCanvas.height;
+
+
+    const maskCtx =
+        maskCanvas.getContext(
+            "2d"
+        );
+
+
+    maskCtx.drawImage(
+
+        results.segmentationMask,
+
+        0,
+        0,
+
+        maskCanvas.width,
+        maskCanvas.height
+
+    );
+
+
+    /*
+     * Read mask
+     */
+
+    const maskData =
+        maskCtx.getImageData(
+
+            0,
+            0,
+
+            maskCanvas.width,
+            maskCanvas.height
+
+        );
+
+
+    /*
+     * Convert segmentation mask
+     * into alpha channel.
      */
 
     for(
@@ -1121,27 +1478,39 @@ function createPersonCutout(
         const value =
             maskData.data[i];
 
+
         /*
-         * Slightly soften edge.
+         * Keep person,
+         * remove background.
          */
 
         const alpha =
             Math.max(
+
                 0,
+
                 Math.min(
+
                     255,
-                    (value - 40) * 1.5
+
+                    (value - 35) * 1.7
+
                 )
+
             );
+
 
         maskData.data[i] =
             255;
 
+
         maskData.data[i + 1] =
             255;
 
+
         maskData.data[i + 2] =
             255;
+
 
         maskData.data[i + 3] =
             alpha;
@@ -1150,24 +1519,32 @@ function createPersonCutout(
 
 
     maskCtx.putImageData(
+
         maskData,
+
         0,
         0
+
     );
 
 
     /*
-     * Apply mask
+     * Apply mask.
      */
 
     ctx.globalCompositeOperation =
         "destination-in";
 
+
     ctx.drawImage(
+
         maskCanvas,
+
         0,
         0
+
     );
+
 
     ctx.globalCompositeOperation =
         "source-over";
@@ -1178,84 +1555,118 @@ function createPersonCutout(
 }
 
 
-/* =========================================
+
+/* ==================================================
    FIND PERSON BOUNDS
-========================================= */
+================================================== */
 
 function findPersonBounds(canvas){
 
     const ctx =
-        canvas.getContext("2d");
+        canvas.getContext(
+            "2d"
+        );
+
 
     const imageData =
         ctx.getImageData(
+
             0,
             0,
+
             canvas.width,
             canvas.height
+
         );
+
 
     let minX =
         canvas.width;
 
+
     let minY =
         canvas.height;
+
 
     let maxX =
         0;
 
+
     let maxY =
         0;
+
 
     let found =
         false;
 
 
     /*
-     * Scan every 4 pixels for speed.
+     * Scan every 3 pixels.
      */
 
     for(
         let y = 0;
         y < canvas.height;
-        y += 4
+        y += 3
     ){
 
         for(
             let x = 0;
             x < canvas.width;
-            x += 4
+            x += 3
         ){
 
             const index =
+
                 (
                     y *
                     canvas.width +
                     x
+
                 ) * 4;
 
+
             const alpha =
-                imageData.data[index + 3];
+                imageData.data[
+                    index + 3
+                ];
 
 
             if(alpha > 30){
 
-                found = true;
+                found =
+                    true;
+
 
                 if(x < minX){
-                    minX = x;
+
+                    minX =
+                        x;
+
                 }
+
 
                 if(y < minY){
-                    minY = y;
+
+                    minY =
+                        y;
+
                 }
+
 
                 if(x > maxX){
-                    maxX = x;
+
+                    maxX =
+                        x;
+
                 }
 
+
                 if(y > maxY){
-                    maxY = y;
+
+                    maxY =
+                        y;
+
                 }
 
             }
@@ -1268,10 +1679,16 @@ function findPersonBounds(canvas){
     if(!found){
 
         return {
+
             x:0,
             y:0,
-            width:canvas.width,
-            height:canvas.height
+
+            width:
+                canvas.width,
+
+            height:
+                canvas.height
+
         };
 
     }
@@ -1294,299 +1711,362 @@ function findPersonBounds(canvas){
 }
 
 
-/* =========================================
+
+/* ==================================================
    CREATE FINAL IMAGE
-========================================= */
+================================================== */
 
 function createFinalImage(
     personCanvas,
     destination
 ){
 
-    return new Promise(function(resolve,reject){
+    return new Promise(
+        function(resolve,reject){
 
-        const background =
-            new Image();
-
-        background.onload =
-            function(){
-
-                try{
-
-                    const canvas =
-                        resultCanvas;
-
-                    const ctx =
-                        canvas.getContext("2d");
-
-                    const W =
-                        canvas.width;
-
-                    const H =
-                        canvas.height;
+            const background =
+                new Image();
 
 
-                    /*
-                     * Background
-                     */
+            background.onload =
+                function(){
 
-                    drawCover(
-                        ctx,
-                        background,
-                        0,
-                        0,
-                        W,
-                        H
-                    );
+                    try{
+
+                        const canvas =
+                            resultCanvas;
 
 
-                    /*
-                     * Find person
-                     */
-
-                    const bounds =
-                        findPersonBounds(
-                            personCanvas
-                        );
+                        const ctx =
+                            canvas.getContext(
+                                "2d"
+                            );
 
 
-                    /*
-                     * Crop person
-                     */
-
-                    const cropCanvas =
-                        document.createElement(
-                            "canvas"
-                        );
-
-                    cropCanvas.width =
-                        bounds.width;
-
-                    cropCanvas.height =
-                        bounds.height;
-
-                    const cropCtx =
-                        cropCanvas.getContext(
-                            "2d"
-                        );
+                        const W =
+                            canvas.width;
 
 
-                    cropCtx.drawImage(
-
-                        personCanvas,
-
-                        bounds.x,
-                        bounds.y,
-
-                        bounds.width,
-                        bounds.height,
-
-                        0,
-                        0,
-
-                        bounds.width,
-                        bounds.height
-
-                    );
+                        const H =
+                            canvas.height;
 
 
-                    /*
-                     * Person size
-                     */
+                        /*
+                         * Background destination
+                         */
 
-                    const maxPersonHeight =
-                        H * 0.78;
+                        drawCover(
 
-                    const personScale =
-                        Math.min(
+                            ctx,
 
-                            maxPersonHeight /
-                            cropCanvas.height,
-
-                            (W * 0.82) /
-                            cropCanvas.width
-
-                        );
-
-
-                    const personWidth =
-                        cropCanvas.width *
-                        personScale;
-
-                    const personHeight =
-                        cropCanvas.height *
-                        personScale;
-
-
-                    const personX =
-                        (W - personWidth) / 2;
-
-
-                    const personY =
-                        H -
-                        personHeight -
-                        115;
-
-
-                    /*
-                     * Shadow
-                     */
-
-                    ctx.save();
-
-                    ctx.shadowColor =
-                        "rgba(0,0,0,.45)";
-
-                    ctx.shadowBlur =
-                        30;
-
-                    ctx.shadowOffsetY =
-                        15;
-
-
-                    ctx.drawImage(
-
-                        cropCanvas,
-
-                        personX,
-                        personY,
-
-                        personWidth,
-                        personHeight
-
-                    );
-
-                    ctx.restore();
-
-
-                    /*
-                     * Bottom gradient
-                     */
-
-                    const gradient =
-                        ctx.createLinearGradient(
+                            background,
 
                             0,
-                            H * 0.68,
                             0,
+
+                            W,
                             H
 
                         );
 
-                    gradient.addColorStop(
-                        0,
-                        "rgba(0,0,0,0)"
+
+                        /*
+                         * Find person
+                         */
+
+                        const bounds =
+                            findPersonBounds(
+                                personCanvas
+                            );
+
+
+                        /*
+                         * Crop person
+                         */
+
+                        const cropCanvas =
+                            document.createElement(
+                                "canvas"
+                            );
+
+
+                        cropCanvas.width =
+                            Math.max(
+                                1,
+                                bounds.width
+                            );
+
+
+                        cropCanvas.height =
+                            Math.max(
+                                1,
+                                bounds.height
+                            );
+
+
+                        const cropCtx =
+                            cropCanvas.getContext(
+                                "2d"
+                            );
+
+
+                        cropCtx.drawImage(
+
+                            personCanvas,
+
+                            bounds.x,
+                            bounds.y,
+
+                            bounds.width,
+                            bounds.height,
+
+                            0,
+                            0,
+
+                            bounds.width,
+                            bounds.height
+
+                        );
+
+
+                        /*
+                         * Person size
+                         */
+
+                        const maxPersonHeight =
+                            H * 0.78;
+
+
+                        const maxPersonWidth =
+                            W * 0.82;
+
+
+                        const personScale =
+                            Math.min(
+
+                                maxPersonHeight /
+                                cropCanvas.height,
+
+                                maxPersonWidth /
+                                cropCanvas.width
+
+                            );
+
+
+                        const personWidth =
+                            cropCanvas.width *
+                            personScale;
+
+
+                        const personHeight =
+                            cropCanvas.height *
+                            personScale;
+
+
+                        const personX =
+                            (W - personWidth) / 2;
+
+
+                        const personY =
+                            H -
+                            personHeight -
+                            115;
+
+
+                        /*
+                         * Shadow
+                         */
+
+                        ctx.save();
+
+
+                        ctx.shadowColor =
+                            "rgba(0,0,0,.45)";
+
+
+                        ctx.shadowBlur =
+                            28;
+
+
+                        ctx.shadowOffsetY =
+                            14;
+
+
+                        ctx.drawImage(
+
+                            cropCanvas,
+
+                            personX,
+                            personY,
+
+                            personWidth,
+                            personHeight
+
+                        );
+
+
+                        ctx.restore();
+
+
+                        /*
+                         * Bottom gradient
+                         */
+
+                        const gradient =
+                            ctx.createLinearGradient(
+
+                                0,
+                                H * 0.68,
+
+                                0,
+                                H
+
+                            );
+
+
+                        gradient.addColorStop(
+
+                            0,
+
+                            "rgba(0,0,0,0)"
+
+                        );
+
+
+                        gradient.addColorStop(
+
+                            1,
+
+                            "rgba(0,0,0,.78)"
+
+                        );
+
+
+                        ctx.fillStyle =
+                            gradient;
+
+
+                        ctx.fillRect(
+
+                            0,
+                            H * 0.68,
+
+                            W,
+                            H * 0.32
+
+                        );
+
+
+                        /*
+                         * Destination name
+                         */
+
+                        ctx.fillStyle =
+                            "#fff";
+
+
+                        ctx.textAlign =
+                            "center";
+
+
+                        ctx.font =
+                            "bold 58px Arial";
+
+
+                        ctx.fillText(
+
+                            destination.name,
+
+                            W / 2,
+
+                            H - 60
+
+                        );
+
+
+                        /*
+                         * Footer
+                         */
+
+                        ctx.font =
+                            "bold 22px Arial";
+
+
+                        ctx.fillText(
+
+                            "ইন্সট্যান্ট বাংলাদেশ টুর",
+
+                            W / 2,
+
+                            H - 25
+
+                        );
+
+
+                        resolve();
+
+                    }
+                    catch(error){
+
+                        reject(error);
+
+                    }
+
+                };
+
+
+            background.onerror =
+                function(){
+
+                    reject(
+
+                        new Error(
+
+                            "Destination image load হয়নি।"
+
+                        )
+
                     );
 
-                    gradient.addColorStop(
-                        1,
-                        "rgba(0,0,0,.75)"
-                    );
+                };
 
 
-                    ctx.fillStyle =
-                        gradient;
+            background.src =
+                destination.image;
 
-                    ctx.fillRect(
-                        0,
-                        H * 0.68,
-                        W,
-                        H * 0.32
-                    );
-
-
-                    /*
-                     * Destination name
-                     */
-
-                    ctx.fillStyle =
-                        "#ffffff";
-
-                    ctx.textAlign =
-                        "center";
-
-                    ctx.font =
-                        "bold 58px Arial";
-
-                    ctx.fillText(
-
-                        destination.name,
-
-                        W / 2,
-                        H - 60
-
-                    );
-
-
-                    /*
-                     * Small footer
-                     */
-
-                    ctx.font =
-                        "bold 22px Arial";
-
-                    ctx.fillText(
-
-                        "ইন্সট্যান্ট বাংলাদেশ টুর",
-
-                        W / 2,
-                        H - 25
-
-                    );
-
-
-                    resolve();
-
-                }
-                catch(error){
-
-                    reject(error);
-
-                }
-
-            };
-
-
-        background.onerror =
-            function(){
-
-                reject(
-                    new Error(
-                        "Destination image load হয়নি।"
-                    )
-                );
-
-            };
-
-
-        background.src =
-            destination.image;
-
-    });
+        }
+    );
 
 }
 
 
-/* =========================================
+
+/* ==================================================
    DRAW COVER
-========================================= */
+================================================== */
 
 function drawCover(
+
     ctx,
     image,
+
     x,
     y,
+
     width,
     height
+
 ){
 
     const imageRatio =
         image.width /
         image.height;
 
+
     const boxRatio =
         width /
         height;
+
 
     let drawWidth;
     let drawHeight;
@@ -1599,13 +2079,16 @@ function drawCover(
         drawHeight =
             height;
 
+
         drawWidth =
             height *
             imageRatio;
 
+
         drawX =
             x +
             (width - drawWidth) / 2;
+
 
         drawY =
             y;
@@ -1616,12 +2099,15 @@ function drawCover(
         drawWidth =
             width;
 
+
         drawHeight =
             width /
             imageRatio;
 
+
         drawX =
             x;
+
 
         drawY =
             y +
@@ -1645,26 +2131,31 @@ function drawCover(
 }
 
 
-/* =========================================
-   STOP CAMERA
-========================================= */
 
-function stopCameraOnly(){
+/* ==================================================
+   STOP CAMERA
+================================================== */
+
+function stopCamera(){
 
     if(currentStream){
 
         currentStream
         .getTracks()
-        .forEach(function(track){
+        .forEach(
+            function(track){
 
-            track.stop();
+                track.stop();
 
-        });
+            }
+        );
+
 
         currentStream =
             null;
 
     }
+
 
     cameraVideo.srcObject =
         null;
@@ -1672,18 +2163,21 @@ function stopCameraOnly(){
 }
 
 
-/* =========================================
+
+/* ==================================================
    CLOSE CAMERA
-========================================= */
+================================================== */
 
 closeCamera.addEventListener(
     "click",
     function(){
 
-        stopCameraOnly();
+        stopCamera();
+
 
         cameraScreen.style.display =
             "none";
+
 
         homeScreen.style.display =
             "block";
@@ -1692,9 +2186,10 @@ closeCamera.addEventListener(
 );
 
 
-/* =========================================
+
+/* ==================================================
    AGAIN
-========================================= */
+================================================== */
 
 againButton.addEventListener(
     "click",
@@ -1702,6 +2197,7 @@ againButton.addEventListener(
 
         resultScreen.style.display =
             "none";
+
 
         startCamera(
             currentPlace
@@ -1711,24 +2207,30 @@ againButton.addEventListener(
 );
 
 
-/* =========================================
-   SAVE IMAGE
-========================================= */
+
+/* ==================================================
+   SAVE
+================================================== */
 
 saveButton.addEventListener(
     "click",
     function(){
 
         const link =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
+
 
         link.download =
             "instant-bangladesh-tour.png";
+
 
         link.href =
             resultCanvas.toDataURL(
                 "image/png"
             );
+
 
         link.click();
 
